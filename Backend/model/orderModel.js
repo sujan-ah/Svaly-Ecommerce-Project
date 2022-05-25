@@ -66,7 +66,7 @@ const orderSchema = new mongoose.Schema({ /* vedio: 45 */
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        // required: true
+        required: true
     },
     isPaid: {type: Boolean, default:false},
     deliveredAt: {type: Date}

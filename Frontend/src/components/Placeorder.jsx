@@ -128,7 +128,8 @@ const Placeorder = () => {  /* Vedio - 42 */
                     productPrice: total,
                     shippingPrice: 0,
                     taxPrice: total < 500? 0:(total*5)/100,
-                    totalPrice: total+(total < 500? 0:(total*5)/100)+(total < 500? 10 : 0)
+                    totalPrice: total+(total < 500? 0:(total*5)/100)+(total < 500? 10 : 0),
+                    user: userInfo._id,
                 },
                 {
                     headers:{
