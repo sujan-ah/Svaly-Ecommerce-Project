@@ -129,7 +129,7 @@ const Placeorder = () => {  /* Vedio - 42 */
                     shippingPrice: 0,
                     taxPrice: total < 500? 0:(total*5)/100,
                     totalPrice: total+(total < 500? 0:(total*5)/100)+(total < 500? 10 : 0),
-                    user: userInfo._id,
+                    userId: userInfo._id,
                 },
                 {
                     headers:{
@@ -137,7 +137,8 @@ const Placeorder = () => {  /* Vedio - 42 */
                     }
                 },
             )
-            // console.log(data);
+
+            console.log(data);
             ctxdispatch({type: 'CLEAR_CART'})
             localStorage.removeItem('cartItems')
             dispatch({type: 'CREATE_SUCCESS'})
@@ -149,6 +150,11 @@ const Placeorder = () => {  /* Vedio - 42 */
     }
     /*Place order Vedio - 45 */
     
+    // useEffect(() => {   /* ami diyechi */
+    //     if(!userInfo){
+    //         navigate('/signin')
+    //     }
+    // }, [])
 
   return (
     <Container>

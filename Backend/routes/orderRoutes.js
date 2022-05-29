@@ -11,6 +11,7 @@ const orderRouter = express.Router()
 const strip = new Stripe(process.env.STRIP_CLIENT || "",null)   /* vedio: 53 Strip */
 
 orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 */
+console.log(req.body.userId);
     const newOrder = new Order({
         orderItems: req.body.orderItems.map((p)=> ({...p,product: p._id})),
         shippingaddress: req.body.shippingaddress,
@@ -19,28 +20,28 @@ orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 */
         shippingPrice: req.body.shippingPrice,
         taxPrice: req.body.taxPrice,
         totalPrice: req.body.totalPrice,
-        user: req.body.user,
+        user: req.body.userId,
     })
-
     const order = await newOrder.save()
     res.status(201).send({msg: "New Order Created",order})
 })  
-
-orderRouter.get('/mine', isAuth, async(req,res)=>{   /* vedio: 54 */
-    const orders = await Order.find({user: req.user._id})
-    console.log(orders);
+orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54 */
+    console.log("AMI ORDER THEKE ASCHI");
+    // console.log(req.params);
+    const orders = await Order.find({user: req.params.id})
+    // console.log(orders);
+    
     if(orders){
         res.send(orders)
     }else{
         res.status(404).send({msg: "Order Not Found"})
     }
 })  
-
 orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 */
     const order = await Order.findById(req.params.id)
     if(order){
         res.send(order)
-        console.log(order)
+        // console.log(order)
     }else{
         res.status(404).send({msg: "Order Not Found"})
     }

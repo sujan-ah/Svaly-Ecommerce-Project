@@ -30,6 +30,7 @@ const orderSchema = new mongoose.Schema({ /* vedio: 45 */
             },
         }
     ],
+
     shippingaddress:{
         fullname: {
             type: String,

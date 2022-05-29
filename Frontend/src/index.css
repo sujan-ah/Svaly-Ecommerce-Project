@@ -108,10 +108,42 @@ a{
   background: green;
   color: #fff;
 }
-
 .step h3{
   text-align: center;
   padding: 10px 0;
 }
 
 
+
+.login{
+  color: #000;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 18px;
+}
+.loginalert{
+  color: #000;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 32px;
+}
+.loginbtn{
+  color: #fff;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 18px;
+}
+.logincreate{
+  color: blue;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 18px;
+  margin-left: 134px;
+}
+.signupcreate {
+  color: blue;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: 181px;
+}

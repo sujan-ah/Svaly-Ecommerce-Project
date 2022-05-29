@@ -19,6 +19,8 @@ import Payment from "./components/Payment";
 import Placeorder from "./components/Placeorder";
 import Order from "./components/Order";
 import MyOrder from "./components/MyOrder";
+import Dashboard from "./components/Dashboard";
+import Vendor from "./components/Vendor";
 
 
 
@@ -82,6 +84,7 @@ function App() {
               <Link className="item" to="/">Home</Link>
               <Link className="item" to="/products">Products</Link>
               <Link className="item" to="/compare">Compare Products</Link>
+             
               
              
               {/* video no: 14 */}
@@ -185,13 +188,39 @@ function App() {
               {/* /* video no: 32 UserInfo */ }
               {userInfo 
               ?
-                <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                  <Link className="item" to="/myorders">My Orders</Link>
+                <NavDropdown 
+                  title={userInfo.name} 
+                  id="basic-nav-dropdown"
+                >
+                  {userInfo.isVendor
+                  ?
+                    <NavDropdown.Item>
+                      <Link className="item" to="/dashboard">
+                        Dashboard
+                      </Link>
+                    </NavDropdown.Item>
+                  :
+                    <NavDropdown.Item> 
+                      <Link className="item" to="/vendor">
+                        Become a vendor
+                      </Link>
+                    </NavDropdown.Item>
+                  }
+                  
+
+                  {/* class: 60 part-1 */}
+                  
+                  {/* class: 60 part-1 */}
+
+                  <NavDropdown.Item>
+                    <Link className="item" to="/myorders">
+                      My Orders
+                    </Link>
                   </NavDropdown.Item>
                   
-                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
               :
                 <Link className="item" to="/signin">Signin</Link>
@@ -280,6 +309,8 @@ function App() {
           <Route path="/placeorder" element={<Placeorder />} /> 
           <Route path="/orders/:id" element={<Order />} />    {/* video no: 47 */}
           <Route path="/myorders" element={<MyOrder />} />    {/* video no: 54 */}
+          <Route path="/dashboard" element={<Dashboard />} />   
+          <Route path="/vendor" element={<Vendor />} />    {/* class: 60 part-1 */}
         </Routes>
       </BrowserRouter>
     </>

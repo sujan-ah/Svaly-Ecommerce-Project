@@ -15,13 +15,16 @@ const userSchema = new mongoose.Schema({ /* vedio: 29 */
         type: String,
         required: true,
     },
-    idAdmin:{
+    isAdmin:{
         type: Boolean,
         default: false,
-        required: true,
+        requireds: true,
+    },
+    isVendor:{          /* class: 60 part-1 */
+        type: Boolean,
+        default: false,
     },
 })
-
 const User = mongoose.model("User", userSchema)
 
 export default User

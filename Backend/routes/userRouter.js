@@ -14,6 +14,7 @@ userRouter.post('/signin',async (req, res) => {
                 name: user.name,
                 email: user.email,
                 idAdmin: user.isAdmin,
+                isVendor: user.isVendor,  /* class: 60 part-1 */
                 token: generateToken(user)
             })
             return
@@ -23,25 +24,36 @@ userRouter.post('/signin',async (req, res) => {
 })
 
     
-/* video no: 38 */
-userRouter.post('/signup', async(req, res) => {
+
+userRouter.post('/signup', async(req, res) => {    /* video no: 38 */
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password)
     })
     const user = await newUser.save()
-    console.log(user);
+    // console.log(user);
 
     res.send({
         _id: user._id,
         name: user.name,
         email: user.email,
-        idAdmin: user.isAdmin,
+        isAdmin: user.isAdmin,
         token: generateToken(user)
     })
 })
 
-/* video no: 38 */
+userRouter.put('/:id', async(req, res) => {   {/* class: 60 part-1 */}
+    console.log(req.params);
+    User.findByIdAndUpdate(req.params.id,{isVendor: true},{new: true},function(err,docs){
+        if(err){
+            console.log(err);
+        }else{
+            res.send(docs)
+        }
+    })
+})
+
+
 export default userRouter
 

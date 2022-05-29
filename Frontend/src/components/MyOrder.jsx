@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from 'react'
 import { Helmet } from 'react-helmet-async';
-import { Container, Table } from 'react-bootstrap';
+import { Container, Table,Badge } from 'react-bootstrap';
 import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,19 +21,20 @@ const reducer = (state,action) =>{
 const MyOrder = () => {     /* vedio: 54 */ 
     let navigate = useNavigate()
 
-    const {state} = useContext(Store)
-    const {userInfo} = state
+    const {state3} = useContext(Store)
+    const {userInfo} = state3
 
     const [{loading,error,orders}, dispatch] = useReducer(reducer,{
         loading: false,
         error: '',
+        orders: []
     })
 
     useEffect(()=>{
         const fetchData = async () =>{
             try{
                 dispatch({type: 'FETCH_REQUEST'})
-                const {data} = await axios.get('/api/orders/mine',{
+                const {data} = await axios.get(`/api/orders/mine/${userInfo._id}`,{
                     headers:{
                         authorization: `Bearer ${userInfo.token}`
                     }
@@ -65,41 +66,32 @@ const MyOrder = () => {     /* vedio: 54 */
                 <h2>{error}</h2>
             :
             <Table striped bordered hover size="sm">
+                {/* vedio: 59 */}
                 <thead>
                     <tr>
                     <th>ID</th>
-                    <th>DATE</th>
+                    <th>Product</th>
+                    <th>Payment Method</th>
                     <th>TOTAL</th>
                     <th>PAID</th>
-                    <th>DELIVERED</th>
-                    <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td colSpan={2}>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    </tr>
+                    
+                    {orders.map((item,index)=>(
+                        <tr>
+                        <td>{index+1}</td>
+                        <td>{item.orderItems.map(item=>
+                            <Badge bg="secondary ms-2">{item.name}</Badge>
+                            )}
+                        </td>
+                        <td>{item.paymentMethod}</td>
+                        <td>{item.totalPrice}</td>
+                        <td>{item.ispaid? "Paid" : "Unpaid"}</td>
+                        </tr>
+                    ))}
                 </tbody>
+                {/* vedio: 59 */}
             </Table>
         }
     </Container>

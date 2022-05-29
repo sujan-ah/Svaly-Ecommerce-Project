@@ -7,9 +7,12 @@ export const generateToken = (user)=>{ /* vedio: 30 */
 }
 
 export const isAuth = (req,res,next)=>{   /* vedio: 45 */
+// console.log("utils");
     const authorization = req.headers.authorization
+    // console.log("authorization");
     if(authorization){
         const token = authorization.slice(7,authorization.length)
+        // console.log(token);
         jwt.verify(
             token,
             process.env.JWT_SECRET,
@@ -17,7 +20,7 @@ export const isAuth = (req,res,next)=>{   /* vedio: 45 */
                 if(err){
                     res.status(401).send({msg:"Invalid Token"})
                 }else{
-                    req.user = decode
+                    req.body.user = decode
                     next()
                 }
             }

@@ -39,9 +39,9 @@ const Login = () => {
                 password,
             })
             dispatch3({type: "USER_SIGNIN", payload: data})
-            // console.log(data);
             localStorage.setItem('userInfo',JSON.stringify(data))
-            navigate(redirect || "/")
+            // navigate(redirect || "/")
+            navigate('/dashboard', {state: "login Succcessful"})  /* ami change korlam */
         }catch(err){
             toast.error("Invalid email or password") /* video no: 33 */
         }
@@ -57,18 +57,22 @@ const Login = () => {
     
 
   return ( /* video no: 32 UserInfo */ 
-    <Container className='w-25 border mt-5 p-3'>
-        <Alert varriant='primary' className='text-center'>
-            <h1>Login</h1>
+    <Container className='w-25 border mt-5 p-3' style={{background: "#21B3DC"}}>
+         <Alert varriant='primary' className='text-center'>
+            <h1 className='loginalert'>Login</h1>
         </Alert>
-        <Form onSubmit={handleSubmit}>
-            <Form.Label htmlFor="inputPassword5">Email</Form.Label>
+        <Form>
+            <Form.Label htmlFor="inputPassword5" className='login'>
+                Email
+            </Form.Label>
             <Form.Control
                 type="email"
                 id="Write Your Email"
                 onChange={(e)=> setEmail(e.target.value)}
             />
-            <Form.Label htmlFor="inputPassword5">Password</Form.Label>
+            <Form.Label htmlFor="inputPassword5" className='login'>
+                Password
+            </Form.Label>
             <Form.Control
                 type="password"
                 id="Your Password"
@@ -76,17 +80,23 @@ const Login = () => {
             />
         </Form>
         <Button 
-            className='mt-3 mb-3'
+            className='mt-3 mb-3 loginbtn'
             variant="primary"
             onClick={handleSubmit}
             >
             Signin
         </Button>
         <br/>
-        <Form.Text id="passwordHelpBlock" muted>
+        {/* <Form.Text id="passwordHelpBlock" muted>
             Don't Have an Account? {' '}
             <Link to={`/signup?redirect=${redirect}`}>
                 Create Account
+            </Link>
+        </Form.Text> */}
+        <Form.Text  id="passwordHelpBlock" muted>
+            <span className='login'>Don't Have an Account? {' '}</span>
+            <Link to={`/signup?redirect=${redirect}`}>
+                <span className='logincreate'>Create Account</span>
             </Link>
         </Form.Text>
     </Container>
