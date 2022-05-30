@@ -16,11 +16,9 @@ const productSchema = new mongoose.Schema({
     },
     rating:{
         type: Number,
-        required: true,
     },
     numberofrating:{
-        type: Number,
-        required: true,
+        type: Number
     },
     description:{
         type: String,
@@ -54,6 +52,14 @@ const productSchema = new mongoose.Schema({
     alldiscount:{
         type: Number,
     },
+    storename:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'storename'
+    },
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 },
 {
     timestamps: true,
