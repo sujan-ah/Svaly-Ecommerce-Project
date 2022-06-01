@@ -61,26 +61,25 @@ productRouter.get('/storename/:id', async (req, res) => {  {/* class: 60 part-2 
     res.send(data)
     // console.log(data)
 })
-
-productRouter.get('/:id', async (req,res)=>{
-    console.log(req.params);
-    const storename = await Storename.findById(req.params.id)
-    res.send(storename)
-})
+// productRouter.get('/:id', async (req,res)=>{
+//     console.log(req.params);
+//     const storename = await Storename.findById(req.params.id)
+//     res.send(storename)
+// })
 productRouter.put('/edit', async (req,res)=>{
     console.log(req.body.id);
-    console.log(req.body.storename);
-    // let name = {
-    //     storename: req.body.storename,
-    // }
-    // Storename.findByIdAndUpdate(req.body.id, name,function (err, docs) {
-    //     if (err){
-    //         console.log(err)
-    //     }
-    //     else{
-    //         console.log("Edited : ", docs);
-    //     }
-    // });
+    console.log(req.body.name);
+    let pro = {
+        name: req.body.name,
+    }
+    Storename.findByIdAndUpdate(req.body.id, pro,function (err, docs) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            console.log("Edited : ", docs);
+        }
+    });
 })
 
 export default productRouter
