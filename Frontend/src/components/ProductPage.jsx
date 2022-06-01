@@ -6,6 +6,7 @@ import { useState,useReducer,useEffect,useContext } from 'react';
 import Rating from './Rating';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../Store';
+import { AiFillHeart } from 'react-icons/ai';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -36,6 +37,7 @@ const ProductPage = () => {
         dispatch({type: 'FETCH_REQUEST'})
         try{
             let product = await axios.get("/products")
+            console.log(product.data);
             dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }catch(err){
             dispatch({type: 'FETCH_FAILS', payload: err.message})
@@ -134,7 +136,7 @@ const ProductPage = () => {
                     /* video: 51 */
                     .map((item)=>(
                         <Col lg={3}> 
-                            <Card style={{height: 600}}>
+                            <Card style={{height: 700}}>
                             <Card.Img variant="top" src={item.img} />
                             <Card.Body className='py-0'
                                 style={{height: 40}}
@@ -166,7 +168,7 @@ const ProductPage = () => {
                                 </Card.Text>
                             </Card.Body>
                                 
-                            <Card.Body className='py-0'>
+                            <Card.Body className='py-0' style={{marginTop: 100}}>
                                 {/* video no: 18 cpy from cartPage */}
 
                                 {cartItems.map(items=>(
@@ -211,17 +213,25 @@ const ProductPage = () => {
                                 ?
                                     <>
                                         <Button 
-                                            className='mt-3'
+                                            className='mt-1'
                                             variant="danger"
                                             >
                                             Out of Stock
                                         </Button>
                                         <Button     /* video no: 23 Modal use*/
-                                            className='mt-3 ms-3'
+                                            className='mt-1 ms-1'
                                             onClick={()=> handleDetails(item.slug)}
                                             variant="info"
                                             >
                                             Details
+                                        </Button>
+                                        <Button     /* video no: 24 Wishlist*/
+                                            className='mt-1 ms-1'
+                                          
+                                            onClick={()=> handleAddToWishList(item)}
+                                            variant="info"
+                                            >
+                                            <AiFillHeart/>
                                         </Button>
                                     </>
                                     
@@ -229,6 +239,7 @@ const ProductPage = () => {
                                     <>
                                         <Button 
                                             className='mt-1 ' /* video no: 18 */
+                                            
                                             onClick={()=> handleAddToCart(item)} /* video no: 16 cpy from pro.details*/
                                             variant="info"
                                             >
@@ -243,10 +254,11 @@ const ProductPage = () => {
                                         </Button>
                                         <Button     /* video no: 24 Wishlist*/
                                             className='mt-1 ms-1'
+                                          
                                             onClick={()=> handleAddToWishList(item)}
                                             variant="info"
                                             >
-                                            Wishlist
+                                            <AiFillHeart/>
                                         </Button>
 
                                     </>

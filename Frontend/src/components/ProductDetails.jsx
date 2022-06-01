@@ -192,9 +192,10 @@ const ProductDetails = () => {
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  {product.description}
+                  <div                              /* class: 61 part-2 */
+                    dangerouslySetInnerHTML={{__html: product.description}}
+                  />
                 </ListGroup.Item>
-              
               </ListGroup>
             </Card>
             </Col>
