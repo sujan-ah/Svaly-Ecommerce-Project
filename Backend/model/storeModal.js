@@ -11,6 +11,6 @@ const storeSchema = new mongoose.Schema({     /* class: 60 part-2 */
     },
 })
 
-const Storename = new mongoose.model('Storename', storeSchema)
+const Storename = mongoose.model('Storename', storeSchema)
 
-module.exports = Storename
+export default Storename

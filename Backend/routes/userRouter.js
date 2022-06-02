@@ -24,7 +24,6 @@ userRouter.post('/signin',async (req, res) => {
 })
 
     
-
 userRouter.post('/signup', async(req, res) => {    /* video no: 38 */
     const newUser = new User({
         name: req.body.name,
