@@ -104,13 +104,16 @@ const Compare = () => {
                                 // className='w-100'
                                 variant="top" 
                                 src={singlePro.img} 
+                                style={{width: 300}}
                             />
                             <Card.Body>
                                 <Card.Title>
                                     {singlePro.name}
                                 </Card.Title>
                                 <Card.Text>
-                                    {singlePro.description}
+                                    <div                              /* class: 61 part-2 */
+                                        dangerouslySetInnerHTML={{__html: singlePro.description}}
+                                    />
                                     {singlePro.price}
                                 </Card.Text>
                                 {singlePro.instock == 0
@@ -179,7 +182,9 @@ const Compare = () => {
                                     {singlePro2.name}
                                 </Card.Title>
                                 <Card.Text>
-                                    {singlePro2.description}
+                                    <div                              /* class: 61 part-2 */
+                                        dangerouslySetInnerHTML={{__html: singlePro2.description}}
+                                    />
                                     {singlePro2.price}
                                 </Card.Text>
 
@@ -232,14 +237,17 @@ const Compare = () => {
                                 <Card.Img 
                                     // className='w-100'
                                     variant="top" 
-                                    src={singlePro.img} 
+                                    src={singlePro.img}
+                                    style={{width: 300}} 
                                 />
                                 <Card.Body>
                                     <Card.Title>
                                         {singlePro.name}
                                     </Card.Title>
                                     <Card.Text>
-                                        {singlePro.description}
+                                    <div                              /* class: 61 part-2 */
+                                        dangerouslySetInnerHTML={{__html: singlePro.description}}
+                                    />
                                         {singlePro.price}
                                     </Card.Text>
                                     {singlePro.instock == 0
@@ -272,9 +280,9 @@ const Compare = () => {
             </Col>
             <Col lg={7}>
                 {singlePro && singlePro2 ?
-                     singlePro.rating  > singlePro2.rating ||
-                     singlePro.rating  == singlePro2.rating && 
-                     singlePro.price > singlePro2.price
+                    singlePro.rating  > singlePro2.rating ||
+                    singlePro.rating  == singlePro2.rating && 
+                    singlePro.price > singlePro2.price
                     ?  
                         <>
                             <h1 className="mt-5"
@@ -290,14 +298,16 @@ const Compare = () => {
                                         className='w-50' 
                                         variant="top" 
                                         src={singlePro2.img} 
-                                        />
+                                    />
                                     <Card.Body>
                                         <Card.Title>
                                             {singlePro2.name}
                                         </Card.Title>
                                         <Card.Text>
-                                            {singlePro2.description}
-                                            {singlePro2.price}
+                                        <div                              /* class: 61 part-2 */
+                                            dangerouslySetInnerHTML={{__html: singlePro2.description}}
+                                        />
+                                        {singlePro2.price}
                                         </Card.Text>
 
                                         {singlePro2.instock == 0

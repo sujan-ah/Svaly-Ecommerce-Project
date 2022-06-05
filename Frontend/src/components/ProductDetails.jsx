@@ -303,10 +303,12 @@ const ProductDetails = () => {
                     </Card.Title>
                   </Link>
                   <Card.Text>
-                    {item.description}
+                  <div                              /* class: 61 part-2 */
+                    dangerouslySetInnerHTML={{__html: item.description}}
+                  />
                   </Card.Text>
                   <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
+                </Card.Body> 
               </Card>
               /* Class-50 */
             ))}

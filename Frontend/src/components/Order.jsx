@@ -87,7 +87,7 @@ const Order = () =>{   /*Vedio - 47 */
     }
     /* vedio: 49 Payment part */
 
-    useEffect(()=>{
+    useEffect(()=>{ 
         if(!order._id || successPay || (order._id && order._id !== orderID)){
             const fetchOrder = async () =>{
                 try{
@@ -99,7 +99,6 @@ const Order = () =>{   /*Vedio - 47 */
                     )
                     dispatch({type: 'FETCH_SUCCESS',payload:data})
                     // console.log(data);
-                    
                 }catch(err){
                     dispatch({type: 'FETCH_FAIL',payload: err})
                 }

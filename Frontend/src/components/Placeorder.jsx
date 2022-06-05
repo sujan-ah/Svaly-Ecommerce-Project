@@ -115,7 +115,6 @@ const Placeorder = () => {  /* Vedio - 42 */
         
     }, [state.cart.cartItems])
     {/* Payment Summary Vedio:44 */}
-
     /*Place order Vedio - 45 */
     let handlePlaceOrder = async () =>{ 
         // console.log('ami'); 

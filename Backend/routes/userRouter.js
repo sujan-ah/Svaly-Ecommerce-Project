@@ -22,8 +22,7 @@ userRouter.post('/signin',async (req, res) => {
     }
     res.status(401).send({msg: "Invalid Email or Password"})
 })
-
-    
+   
 userRouter.post('/signup', async(req, res) => {    /* video no: 38 */
     const newUser = new User({
         name: req.body.name,
@@ -52,7 +51,6 @@ userRouter.put('/:id', async(req, res) => {   {/* class: 60 part-1 */}
         }
     })
 })
-
 
 export default userRouter
 

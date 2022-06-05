@@ -10,7 +10,7 @@ const orderRouter = express.Router()
 
 const strip = new Stripe(process.env.STRIP_CLIENT || "",null)   /* vedio: 53 Strip */
 
-orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 */
+orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 PlaceOrder.jsx L-122*/
 console.log(req.body.userId);
     const newOrder = new Order({
         orderItems: req.body.orderItems.map((p)=> ({...p,product: p._id})),
@@ -25,7 +25,8 @@ console.log(req.body.userId);
     const order = await newOrder.save()
     res.status(201).send({msg: "New Order Created",order})
 })  
-orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54 */
+
+orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54 MyOrder.jsx L-37*/
     console.log("AMI ORDER THEKE ASCHI");
     // console.log(req.params);
     const orders = await Order.find({user: req.params.id})
@@ -37,7 +38,8 @@ orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54 */
         res.status(404).send({msg: "Order Not Found"})
     }
 })  
-orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 */
+
+orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-95*/
     const order = await Order.findById(req.params.id)
     if(order){
         res.send(order)
@@ -47,7 +49,7 @@ orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 */
     }
 })  
 
-orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 */
+orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L-72*/
     const order = await Order.findById(req.params.id)
     if(order){
         order.isPaid = true,
@@ -64,7 +66,7 @@ orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 */
     }
 })  
 
-orderRouter.post('/:id/payment',isAuth, async function(req,res){   /* vedio: 51 Strip */
+orderRouter.post('/:id/payment',isAuth, async function(req,res){   /* vedio: 51 Strip order.jsx L-138 */
     const {token = {}, amount=0} = req.body
 
     if(!Object.keys(token).length || !amount){

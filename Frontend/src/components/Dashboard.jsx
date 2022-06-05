@@ -144,7 +144,9 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Description</Form.Label>
-              <EditorConvertToHTML onChange={(e)=>setDescription(localStorage.getItem('text'))}/>   {/* class: 61 part-1 */}
+              <EditorConvertToHTML 
+                onChange={(e)=>setDescription(localStorage.getItem('text'))}
+              />   {/* class: 61 part-1 */}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">

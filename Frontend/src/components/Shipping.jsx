@@ -65,7 +65,7 @@ const Shipping = () => { /* video no: 34 User */
 
         <Container className='w-25 border mt-5 p-3'>
             <Alert varriant='primary' className='text-center'>
-                <h1>Shipping Adress</h1>
+                <h1>Shipping Address</h1>
             </Alert>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
