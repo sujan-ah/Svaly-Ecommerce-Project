@@ -10,7 +10,7 @@ const Login = () => {
     const navigate = useNavigate() /* video no: 32 UserInfo */ 
     
     let {search, state} = useLocation()
-    console.log(search);
+    // console.log(search);
 
     if(state){
         toast.success(state)
@@ -38,10 +38,14 @@ const Login = () => {
                 email,
                 password,
             })
-            dispatch3({type: "USER_SIGNIN", payload: data})
+            console.log(data);
+            dispatch3({
+                type: "USER_SIGNIN", 
+                payload: data
+            })
             localStorage.setItem('userInfo',JSON.stringify(data))
             // navigate(redirect || "/")
-            navigate('/dashboard', {state: "login Succcessful"})  /* ami change korlam */
+            navigate('/vendor', {state: "login Succcessful"})  /* ami change korlam */
         }catch(err){
             toast.error("Invalid email or password") /* video no: 33 */
         }

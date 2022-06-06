@@ -77,17 +77,27 @@ const MyOrder = () => {     /* vedio: 54 */
                     </tr>
                 </thead>
                 <tbody>
-                    
                     {orders.map((item,index)=>(
                         <tr>
-                        <td>{index+1}</td>
-                        <td>{item.orderItems.map(item=>
-                            <Badge bg="secondary ms-2">{item.name}</Badge>
-                            )}
-                        </td>
-                        <td>{item.paymentMethod}</td>
-                        <td>{item.totalPrice}</td>
-                        <td>{item.ispaid? "Paid" : "Unpaid"}</td>
+                            <td>
+                                {index+1}
+                            </td>
+                            <td>
+                                {item.orderItems.map(item=>
+                                    <Badge bg="secondary ms-2">
+                                        {item.name}
+                                    </Badge>
+                                )}
+                            </td>
+                            <td>
+                                {item.paymentMethod}
+                            </td>
+                            <td>
+                                {item.totalPrice}
+                            </td>
+                            <td>
+                                {item.ispaid? "Paid" : "Unpaid"}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

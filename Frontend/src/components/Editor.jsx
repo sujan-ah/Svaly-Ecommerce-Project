@@ -24,10 +24,10 @@ class EditorConvertToHTML extends Component {  /* class: 61 part-1 */
         return (
         <div>
             <Editor
-            editorState={editorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="demo-editor"
-            onEditorStateChange={this.onEditorStateChange}
+                editorState={editorState}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                onEditorStateChange={this.onEditorStateChange}
             />
             {/* <textarea
             disabled

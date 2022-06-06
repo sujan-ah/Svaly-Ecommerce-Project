@@ -10,8 +10,6 @@ import Slider from "react-slick";  /* Class-50 */
 import { FaArrowLeft,FaArrowRight } from 'react-icons/fa';
 
 
-
-
 function reducer(state, action) {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -24,7 +22,6 @@ function reducer(state, action) {
       return true
   }
 }
-
 
 const ProductDetails = () => {
 
@@ -55,7 +52,7 @@ const ProductDetails = () => {
     product: {},
     error: '',
   });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(async()=>{
     dispatch({type: 'FETCH_REQUEST'})
     try{
@@ -77,7 +74,6 @@ const ProductDetails = () => {
     }
   },[params.slug])
 
-  
   const {state, dispatch: ctxDispatch} = useContext(Store)
 
   const {cart} = state /* class 46 */

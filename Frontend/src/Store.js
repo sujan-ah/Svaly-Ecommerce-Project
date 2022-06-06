@@ -178,10 +178,6 @@ function paymentreducer (state, action) {
 
 
 
-
-
-
-
 function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [state2, dispatch2] = useReducer(reducer2, initialState2);  /* v: 24 Wishlist */

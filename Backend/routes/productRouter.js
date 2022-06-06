@@ -4,7 +4,7 @@ import Storename from '../model/storeModal.js'
 
 const productRouter = express.Router()
 
-productRouter.post('/', async (req,res)=>{  /* class: 61 part-2 */
+productRouter.post('/', async (req,res)=>{  /* class: 61 part-2 Dashboard.jsx L-68*/
     console.log(req.body);
     let productInfo = {
         name: req.body.name,
@@ -23,7 +23,7 @@ productRouter.post('/', async (req,res)=>{  /* class: 61 part-2 */
     product.save()
 })
 
-productRouter.get('/', async(req,res)=>{
+productRouter.get('/', async(req,res)=>{    /* ProductPage.jsx L-39 */
     const products = await Product.find()
     res.send(products)
 })
@@ -33,7 +33,7 @@ productRouter.get('/', async(req,res)=>{
 //     res.send(products)
 // })
 
-productRouter.get('/:slug', async (req, res) => { /* vedio: 28 */
+productRouter.get('/:slug', async (req, res) => { /* vedio: 28 ProductDtails.jsx L-59 */
     let product = await Product.findOne({slug: req.params.slug})
     if(product){
         res.send(product)
@@ -42,7 +42,7 @@ productRouter.get('/:slug', async (req, res) => { /* vedio: 28 */
     }
 })
 
-productRouter.post('/storename', async (req, res) => {  {/* class: 60 part-2 */}
+productRouter.post('/storename', async (req, res) => {  {/* class: 60 part-2 Storename.jsx L-22 */}
     // console.log(req.body);
 
     let storenameInfo = {
@@ -55,8 +55,7 @@ productRouter.post('/storename', async (req, res) => {  {/* class: 60 part-2 */}
     // console.log(storename);
 })
 
-
-productRouter.get('/storename/:id', async (req, res) => {  {/* class: 60 part-2 */}
+productRouter.get('/storename/:id', async (req, res) => {  {/* class: 60 part-2 Storename.jsx L-40 */}
     let data = await Storename.find({owner: req.params.id})
     res.send(data)
     // console.log(data)
@@ -66,9 +65,7 @@ productRouter.get('/storename/:id', async (req, res) => {  {/* class: 60 part-2 
 //     const storename = await Storename.findById(req.params.id)
 //     res.send(storename)
 // })
-productRouter.put('/edit', async (req,res)=>{
-    console.log(req.body.id);
-    console.log(req.body.name);
+productRouter.put('/storename/edit', async (req,res)=>{   {/* Storename.jsx L-32 */}
     let pro = {
         name: req.body.name,
     }
@@ -81,6 +78,5 @@ productRouter.put('/edit', async (req,res)=>{
         }
     });
 })
-
 
 export default productRouter

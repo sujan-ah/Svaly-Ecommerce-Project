@@ -11,7 +11,7 @@ const orderRouter = express.Router()
 const strip = new Stripe(process.env.STRIP_CLIENT || "",null)   /* vedio: 53 Strip */
 
 orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 PlaceOrder.jsx L-122*/
-console.log(req.body.userId);
+    // console.log(req.body.userId);
     const newOrder = new Order({
         orderItems: req.body.orderItems.map((p)=> ({...p,product: p._id})),
         shippingaddress: req.body.shippingaddress,
@@ -26,8 +26,8 @@ console.log(req.body.userId);
     res.status(201).send({msg: "New Order Created",order})
 })  
 
-orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54 MyOrder.jsx L-37*/
-    console.log("AMI ORDER THEKE ASCHI");
+orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54  MyOrder.jsx L-37*/
+    // console.log("AMI ORDER THEKE ASCHI");
     // console.log(req.params);
     const orders = await Order.find({user: req.params.id})
     // console.log(orders);
@@ -49,8 +49,9 @@ orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-95*
     }
 })  
 
-orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L-72*/
+orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L-72 (Paypal) */
     const order = await Order.findById(req.params.id)
+    console.log(order);
     if(order){
         order.isPaid = true,
         order.paidAt = Date.now(),
@@ -66,7 +67,7 @@ orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L
     }
 })  
 
-orderRouter.post('/:id/payment',isAuth, async function(req,res){   /* vedio: 51 Strip order.jsx L-138 */
+orderRouter.post('/:id/payment',isAuth, async function(req,res){   /* vedio: 51 (Strip) order.jsx L-138 */
     const {token = {}, amount=0} = req.body
 
     if(!Object.keys(token).length || !amount){

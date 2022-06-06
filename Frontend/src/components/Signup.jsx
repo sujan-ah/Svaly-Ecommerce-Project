@@ -12,6 +12,7 @@ const Signup = () => {
 
     let {search} = useLocation()
     console.log(search);
+    
     let redirectUrl = new URLSearchParams(search).get('redirect')
     console.log(redirectUrl);
     let redirect = redirectUrl ? redirectUrl : '/'
@@ -32,17 +33,18 @@ const Signup = () => {
     let handleSubmit = async (e) =>{  /* video no: 32 UserInfo */ 
         e.preventDefault()
         try{
-            const {data} = await axios.post("api/users/signup", {
+            let {data} = await axios.post("api/users/signup", {
                 name,
                 email,
                 password,
+                cpassword,
             })
+            console.log(data);
             navigate('/signin', {state: "Please login"})
         }catch(err){
             toast.error("Invalid email or password") /* video no: 33 */
         }
     }
-
 
     /* video no: 33 */
     useEffect(() => {
@@ -92,17 +94,10 @@ const Signup = () => {
             Signup
         </Button>
         <br/>
-        {/* <Form.Text id="passwordHelpBlock" muted>
+        <Form.Text id="passwordHelpBlock" muted>
             Already Have an Account? {' '}
             <Link to={`/signin?redirect=${redirect}`}>
                 Login
-            </Link>
-        </Form.Text> */}
-
-        <Form.Text id="passwordHelpBlock" muted>
-            <span className='login'>Already Have an Account? {' '}</span>
-            <Link to={`/signin?redirect=${redirect}`}>
-                <span className='signupcreate'>Login</span>
             </Link>
         </Form.Text>
     </Container>

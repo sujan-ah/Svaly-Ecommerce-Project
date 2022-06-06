@@ -65,7 +65,7 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
   },[])
   let handleProductSubmit = async (e) =>{       /* class: 61 part-1 */
     e.preventDefault()
-    let {data} = await axios.post('/products',{   /* class: 61 part-2 */
+    await axios.post('/products',{   /* class: 61 part-2 */
       name: name,
       image: image,
       price: price,
@@ -78,7 +78,6 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
       total: total,  
       owner: state3.userInfo._id,
     })
-    console.log(data);
   }  
 
   // useEffect(()=>{                   /* class: 61 part-2 */

@@ -3,6 +3,7 @@ import { Form,Button, Container,Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { Store } from '../Store';
 
+
 const Storename = () => {
   const {state3} = useContext(Store)
   const {userInfo} = state3
@@ -18,23 +19,20 @@ const Storename = () => {
 
   let handleSubmit = async (e) =>{
     e.preventDefault()
-    let {data} = await axios.post('/products/storename',{
+    await axios.post('/products/storename',{
       id: state3.userInfo._id,
       name: name,
     })
-    console.log(data);
   }
 
   /* HW  Edit */
   let handleModalSubmit = async (e) =>{
     e.preventDefault()
     setShow(false)
-    let {data} = await axios.put('/products/edit',{
+    await axios.put('/products/storename/edit',{
       id: proid,
       name: name,
     })
-    console.log(data);
-    
   }
 
   const handleShow = async (e) =>{
