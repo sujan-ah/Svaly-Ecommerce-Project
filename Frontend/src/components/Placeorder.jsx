@@ -136,8 +136,6 @@ const Placeorder = () => {  /* Vedio - 42 */
                     }
                 },
             )
-
-            console.log(data);
             ctxdispatch({type: 'CLEAR_CART'})
             localStorage.removeItem('cartItems')
             dispatch({type: 'CREATE_SUCCESS'})

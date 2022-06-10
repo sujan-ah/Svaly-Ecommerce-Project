@@ -1,19 +1,31 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Store } from '../Store'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'; 
-import { Row,Col,Nav,Form,Button,Modal,Tab } from 'react-bootstrap';
+import { Row,Col,Nav,Form,Button,Modal,Tab,Table } from 'react-bootstrap';
 import axios from 'axios';
 import EditorConvertToHTML from './Editor.jsx' /* class: 61 part-1 */
 import Storename from './Storename';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { FaEdit } from 'react-icons/fa';
+
 
 
 const Dashboard = () => {     {/* class: 60 part-2 */}
   let navigate = useNavigate()
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  
+
   const [cat,setCat] = useState(false)
   const [pro,setPro] = useState(false)
+  const [prolist,setProlist] = useState(false)      /* video: 62 */
+  const [myprolist,setMyprolist] = useState([])     /* video: 62 */
+  const [proid,setProId] = useState('')              /* video: 62 */   
   const [storename,setStorename] = useState('')
+  
 
   /* class: 61 part-1 */
   const [name,setName] = useState('') 
@@ -45,15 +57,22 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
   }, [])
   /* nije korchi */
 
-
-
   let handleCat = () =>{
     setCat(true)
     setPro(false)
+    setProlist(false)
   }
-  let handlePro = () =>{
+
+  let handlePro = () =>{    
     setPro(true)
     setCat(false)
+    setProlist(false)
+  }
+
+  let handleProList = () =>{          {/* video: 62 */}
+    setPro(false)
+    setCat(false)
+    setProlist(true)
   }
 
   useEffect(()=>{
@@ -63,23 +82,63 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
     }
     Store()
   },[])
+
+  useEffect(()=>{                           {/* video: 62 */}
+    async function productlist(){
+      let {data} = await axios.get(`/products/productlist/${userInfo._id}`)
+      setMyprolist(data);
+    }
+    productlist()
+  },[])
+
   let handleProductSubmit = async (e) =>{       /* class: 61 part-1 */
     e.preventDefault()
-    await axios.post('/products',{   /* class: 61 part-2 */
-      name: name,
-      image: image,
-      price: price,
-      description: localStorage.getItem('text'),
-      slug: slug,
-      stock: stock,
-      catagory: catagory,
-      cupon: cupon,
-      discount: discount,
-      total: total,  
-      owner: state3.userInfo._id,
-    })
+    if(!name || !image || !price || !slug || !stock  ){
+      toast.error("Please Fill The All field")
+    }else if(localStorage.getItem('text') == ''){
+      toast.error("Please Fill Description")
+    }else{
+      await axios.post('/products',{   /* class: 61 part-2 */
+        name: name,
+        image: image,
+        price: price,
+        description: localStorage.getItem('text'),
+        slug: slug,
+        stock: stock,
+        catagory: catagory,
+        cupon: cupon,
+        discount: discount,
+        total: total,  
+        owner: state3.userInfo._id,
+      })
+    }
   }  
 
+  let handleProListDelete = async (id) =>{        /* HW video: 62 */
+    await axios.post('/products/productlist/del',{
+      id: id
+    })
+  }
+
+  const handleProListModalShow = async (id) => {      /* HW video: 62 */
+    setShow(true);
+    setProId(id)
+    let {data} = await axios.get(`/products/productlistModal/${id}`)
+    setName(data.name);
+    setPrice(data.price);
+    setDiscount(data.discount);
+  }
+
+  let handleProListMdalSubmit = async () =>{      /* HW video: 62 */
+    setShow(false);
+    await axios.put('/products/productlistModal/edit',{
+      id: proid,
+      name: name,
+      price: price,
+      discount: discount,
+    })
+  }
+  
   // useEffect(()=>{                   /* class: 61 part-2 */
   //   async function Store(){
   //     let {data} = await axios.get(`/products/cat`)
@@ -106,8 +165,8 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="third">
-                <h4>Sub Catagory</h4>
+              <Nav.Link onClick={handleProList} eventKey="third">
+                <h4>Product List</h4>    {/* video: 62 */}
               </Nav.Link>
             </Nav.Item>
           </Nav>
@@ -218,6 +277,105 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
           {cat &&
             <Storename/>
           }
+          {prolist &&                /* video: 62 */
+            <Table striped bordered hover className='proTable'>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Product Name</th>
+                  <th>Product Price</th>
+                  <th>Discount</th>
+                  <th className='action'>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {myprolist.map((item,index)=>(
+                  <tr>
+                    <td>{index+1}</td>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    <td>{item.discount ? <h6>{item.discount}</h6> : "No Discount"  }</td>
+                    <td>
+                      <Button 
+                        variant="primary" 
+                        onClick={()=> handleProListModalShow(item._id)}
+                        style={{width: "45%"}}
+                      >
+                        <FaEdit/>
+                      </Button>
+
+                      <Button 
+                        variant="danger"
+                        onClick={()=> handleProListDelete(item._id)}
+                        style={{width: "45%"}}
+                        className='ms-2'
+                      >
+                        <RiDeleteBin5Fill/>
+                      </Button>
+                    </td>
+                  
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          }
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Title style={{marginLeft: 50,marginTop: 25,fontWeight: 40}}>
+              <h3>Product List Info</h3>
+            </Modal.Title>
+            <Modal.Body  className='mdl'>
+              <Form className='mt-3' style={{fontSize: 15, fontWeight: 700}}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label >Product Name</Form.Label>
+                  <Form.Control 
+                    onChange={(e)=>setName(e.target.value)}
+                    type="text" 
+                    placeholder="Product Name"
+                    className="formModal"
+                    value={name} 
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Product Price</Form.Label>
+                  <Form.Control 
+                    onChange={(e)=>setPrice(e.target.value)}
+                    type="text" 
+                    placeholder="Product Price"
+                    className="formModal" 
+                    value={price} 
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Discount</Form.Label>
+                  <Form.Control 
+                    onChange={(e)=>setDiscount(e.target.value)}
+                    type="number" 
+                    placeholder="Product Discount"
+                    className="formModal"
+                    value={discount}  
+                  />
+                </Form.Group>
+              </Form>
+              <Button 
+                variant="primary" 
+                type="submit"
+                onClick={handleProListMdalSubmit}
+                className='btnMdl'
+                style={{background: "#0D6EFD"}}
+              >
+                Submit
+              </Button>
+              <Button 
+                variant="secondary" 
+                onClick={handleClose}
+                className='ms-2 btnMdl'
+                style={{background: "#3F0082"}}
+              >
+                Close
+              </Button>
+            </Modal.Body>
+              
+          </Modal>
         </Col>
       </Row>
     </Tab.Container>

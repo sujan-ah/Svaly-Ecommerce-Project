@@ -5,7 +5,6 @@ import Storename from '../model/storeModal.js'
 const productRouter = express.Router()
 
 productRouter.post('/', async (req,res)=>{  /* class: 61 part-2 Dashboard.jsx L-68*/
-    console.log(req.body);
     let productInfo = {
         name: req.body.name,
         img: req.body.image,
@@ -43,8 +42,6 @@ productRouter.get('/:slug', async (req, res) => { /* vedio: 28 ProductDtails.jsx
 })
 
 productRouter.post('/storename', async (req, res) => {  {/* class: 60 part-2 Storename.jsx L-22 */}
-    // console.log(req.body);
-
     let storenameInfo = {
         name: req.body.name,
         owner: req.body.id,
@@ -79,4 +76,41 @@ productRouter.put('/storename/edit', async (req,res)=>{   {/* Storename.jsx L-32
     });
 })
 
+productRouter.get('/productlist/:id', async (req, res)=>{     {/* vedio: 60 Dashboard.jsx L- */}  
+    let data = await Product.find({owner: req.params.id})
+    res.send(data)
+})
+
+productRouter.post('/productlist/del', async (req,res)=>{       /* HW video: 62 */
+    Product.findByIdAndDelete(req.body.id, function (err, docs) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            console.log("Deleted : ", docs);
+        }
+    });
+})
+
+productRouter.get('/productlistModal/:id', async (req,res)=>{
+    let prolist = await Product.findById(req.params.id)
+    res.send(prolist);
+})
+
+productRouter.put('/productlistModal/edit', async (req,res)=>{
+    let proInfo = {
+        name: req.body.name,
+        price: req.body.price,
+        discount: req.body.discount,
+    }
+    Product.findByIdAndUpdate(req.body.id,  proInfo , function (err, docs) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            console.log("Updated User : ", docs);
+        }
+    });
+})
+    
 export default productRouter

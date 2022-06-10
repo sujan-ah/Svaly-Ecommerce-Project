@@ -2,6 +2,9 @@ import express from "express"
 import User from "../model/userModel.js"
 import bcrypt from "bcryptjs"
 import { generateToken } from "../utils.js"
+import VertualCard from "../model/vertualModel.js"
+
+
 
 const userRouter = express.Router() /* vedio: 30 */
 
@@ -24,7 +27,6 @@ userRouter.post('/signin',async (req, res) => {  /* Login.jsx L-37 */
 })
    
 userRouter.post('/signup', async(req, res) => {    /* video no: 38 Signup.jsx L-35 */
-    
     const newUser = {                           /* [Rules: 1] */
         name: req.body.name,
         email: req.body.email,
@@ -50,7 +52,6 @@ userRouter.post('/signup', async(req, res) => {    /* video no: 38 Signup.jsx L-
 })
 
 userRouter.put('/vendor/:id', async(req, res) => {   {/* class: 60 part-1 Vendor.jsx L-17 */}
-    console.log(req.params);
     User.findByIdAndUpdate(req.params.id,{isVendor: true},{new: true},function(err,docs){
         if(err){
             console.log(err);
@@ -60,5 +61,34 @@ userRouter.put('/vendor/:id', async(req, res) => {   {/* class: 60 part-1 Vendor
     })
 })
 
+userRouter.post('/vertualcart/:id', async (req,res)=>{      /* class: 62 */
+    let vertualcardInfo = {
+        amount: req.body.amount,
+        owner: req.body.owner,
+    }
+    let vertualcard = await new VertualCard(vertualcardInfo)
+    vertualcard.save()
+    res.send("done")
+})
+
+userRouter.post('/vertualcardPayment', async (req,res)=>{      /* class: 62 */
+    // console.log(req.body);
+    let data = await VertualCard.find({owner: req.body.owner})
+    // console.log(data);
+    if(data[0].amount < req.body.price){
+        console.log("Amount is not Sufficient");
+    }else{
+        // console.log(data[0].amount - (req.body.price-(req.body.price*2/100)) );
+        VertualCard.findByIdAndUpdate(data[0]._id, 
+            {amount: data[0].amount-(req.body.price-(req.body.price*2/100))},{new: true},
+            function(err,docs){
+            if(err){
+                console.log(err);
+            }else{
+                console.log(docs);
+            }
+        })
+    }
+})
 
 export default userRouter

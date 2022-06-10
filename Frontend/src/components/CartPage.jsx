@@ -38,7 +38,6 @@ const CartPage = () => {
   }
   /* video no: 17 */
 
-  
   let handleCuponText = (e) =>{
     setCuponText(e.target.value);
   }

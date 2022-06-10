@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Form,Button, Container,Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { Store } from '../Store';
+import { FaEdit } from 'react-icons/fa';
 
 
 const Storename = () => {
@@ -89,7 +90,7 @@ const Storename = () => {
             type="submit"
             onClick={handleShow}
           >
-            Edit
+            <FaEdit/>
           </Button>
         :
           <Button 

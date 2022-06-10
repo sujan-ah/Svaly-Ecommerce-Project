@@ -66,7 +66,8 @@ const Order = () =>{   /*Vedio - 47 */
         })
     }
     function onApprove(data,action){
-        return action.order.capture().then(async function(details){
+        return action.order.capture()
+        .then(async function(details){
             try{
                 dispatch({type: 'PAYPAL_REQUEST'})
                 const {data} = await axios.put(`/api/orders/${order._id}/pay`,details,{
@@ -74,6 +75,7 @@ const Order = () =>{   /*Vedio - 47 */
                         authorization: `Bearer ${userInfo.token}`
                     }
                 })
+                console.log(data);
                 dispatch({type: 'PAY_SUCCESS', payload: data})
                 toast.success("Order Is Paid")
             }catch(err){
@@ -87,6 +89,14 @@ const Order = () =>{   /*Vedio - 47 */
     }
     /* vedio: 49 Payment part */
 
+    let handleVertualCard = async () =>{                 {/* class: 62 */}
+        let {data} = await axios.post('/api/users/vertualcardPayment',{
+            owner: userInfo._id,
+            price: order.totalPrice,
+        })
+        console.log(data);
+    }
+
     useEffect(()=>{ 
         if(!order._id || successPay || (order._id && order._id !== orderID)){
             const fetchOrder = async () =>{
@@ -98,7 +108,7 @@ const Order = () =>{   /*Vedio - 47 */
                         }
                     )
                     dispatch({type: 'FETCH_SUCCESS',payload:data})
-                    // console.log(data);
+                    console.log(data);
                 }catch(err){
                     dispatch({type: 'FETCH_FAIL',payload: err})
                 }
@@ -261,8 +271,15 @@ const Order = () =>{   /*Vedio - 47 */
                             </Col>
                         }
                         {loadingPay && <h1>payment loading</h1>}
-                    </Row>   
-                      {/* vedio: 49 Payment part */}  
+                    </Row>  
+                    {/* vedio: 49 Payment part */}  
+
+                    <Button                  /* class: 62 */
+                        variant="success"
+                        onClick={handleVertualCard}
+                    >     
+                        Use Vertual Card
+                    </Button> 
                 </Col>
             </Row>
         </Container>

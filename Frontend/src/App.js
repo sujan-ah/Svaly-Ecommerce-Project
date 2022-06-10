@@ -21,6 +21,7 @@ import Order from "./components/Order";
 import MyOrder from "./components/MyOrder";
 import Dashboard from "./components/Dashboard";
 import Vendor from "./components/Vendor";
+import VertualCard from "./components/VertualCard";
 
 
 
@@ -200,18 +201,18 @@ function App() {
                       </Link>
                     </NavDropdown.Item>
                   :
-                    <NavDropdown.Item> 
+                    <NavDropdown.Item>          {/* class: 60 part-1 */}
                       <Link className="item" to="/vendor">
                         Become a vendor
                       </Link>
                     </NavDropdown.Item>
                   }
-                  
 
-                  {/* class: 60 part-1 */}
-                  
-                  {/* class: 60 part-1 */}
-
+                  <NavDropdown.Item>             {/* class: 62 */}
+                    <Link className="item" to="/vertualcard">
+                      Get A Virtual Cart
+                    </Link>
+                  </NavDropdown.Item>
                   <NavDropdown.Item>
                     <Link className="item" to="/myorders">
                       My Orders
@@ -311,6 +312,7 @@ function App() {
           <Route path="/myorders" element={<MyOrder />} />    {/* video no: 54 */}
           <Route path="/dashboard" element={<Dashboard />} />   
           <Route path="/vendor" element={<Vendor />} />    {/* class: 60 part-1 */}
+          <Route path="/vertualcard" element={<VertualCard />} />    {/* class: 62 */}
         </Routes>
       </BrowserRouter>
     </>

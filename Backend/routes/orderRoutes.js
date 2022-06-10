@@ -39,7 +39,8 @@ orderRouter.get('/mine/:id', isAuth, async(req,res)=>{   /* vedio: 54  MyOrder.j
     }
 })  
 
-orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-95*/
+orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-104*/
+// console.log(req.params.id);
     const order = await Order.findById(req.params.id)
     if(order){
         res.send(order)
@@ -47,7 +48,7 @@ orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-95*
     }else{
         res.status(404).send({msg: "Order Not Found"})
     }
-})  
+})   
 
 orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L-72 (Paypal) */
     const order = await Order.findById(req.params.id)
@@ -67,7 +68,7 @@ orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L
     }
 })  
 
-orderRouter.post('/:id/payment',isAuth, async function(req,res){   /* vedio: 51 (Strip) order.jsx L-138 */
+orderRouter.post('/:id/payment',isAuth, async function(req,res){  /* vedio: 51 (Strip) order.jsx L-138 */
     const {token = {}, amount=0} = req.body
 
     if(!Object.keys(token).length || !amount){
