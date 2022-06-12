@@ -51,8 +51,9 @@ const ProductPage = () => {
     }
 
     /* video no: 16 cpy from pro.details*/
-    const {state, dispatch: ctxDispatch, state2, dispatch2} = useContext(Store)
+    const {state, dispatch: ctxDispatch, state3, dispatch2} = useContext(Store)
     const {cart} = state 
+    const {userInfo} = state3       /* class: 63 part-1 */
 
     let handleAddToCart = async (product) =>{
         const existingItem = cart.cartItems.find((item)=>item._id === product._id)
@@ -142,17 +143,46 @@ const ProductPage = () => {
                                 style={{height: 40}}
                             >
                                 <Card.Title>
-                                    <Link to={`/products/${item.slug}`}>
-                                        {item.name} {' '}
-                                        {item.totalsale > 60
+                                    {userInfo
+                                    ?
+                                        userInfo.isAffiliate
                                         ?
-                                            <Badge bg="warning">
-                                                Best Seller
-                                            </Badge>
+                                        <Link to={`/products/${item.slug}?name=${userInfo.name}`}>
+                                            {item.name} {' '}
+                                            {item.totalsale > 60
+                                            ?
+                                                <Badge bg="warning">
+                                                    Best Seller
+                                                </Badge>
+                                            :
+                                                ""
+                                            }
+                                        </Link>
                                         :
-                                            ""
-                                        }
-                                    </Link>
+                                        <Link to={`/products/${item.slug}`}>
+                                            {item.name} {' '}
+                                            {item.totalsale > 60
+                                            ?
+                                                <Badge bg="warning">
+                                                    Best Seller
+                                                </Badge>
+                                            :
+                                                ""
+                                            }
+                                        </Link>
+                                    :
+                                        <Link to={`/products/${item.slug}`}>
+                                            {item.name} {' '}
+                                            {item.totalsale > 60
+                                            ?
+                                                <Badge bg="warning">
+                                                    Best Seller
+                                                </Badge>
+                                            :
+                                                ""
+                                            }
+                                        </Link>
+                                    }
                                 </Card.Title>
 
                                 <Card.Text>

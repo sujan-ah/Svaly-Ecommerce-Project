@@ -12,9 +12,9 @@ const Login = () => {
     let {search, state} = useLocation()
     // console.log(search);
 
-    if(state){
-        toast.success(state)
-    }
+    // if(state){
+    //     toast.success(state)
+    // }
 
     let redirectUrl = new URLSearchParams(search).get('redirect')
     console.log(redirectUrl);

@@ -22,6 +22,8 @@ import MyOrder from "./components/MyOrder";
 import Dashboard from "./components/Dashboard";
 import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
+import Affiliate from "./components/Affiliate";
+import AffiliateLink from "./components/AffiliateLink";
 
 
 
@@ -86,8 +88,6 @@ function App() {
               <Link className="item" to="/products">Products</Link>
               <Link className="item" to="/compare">Compare Products</Link>
              
-              
-             
               {/* video no: 14 */}
               <NavDropdown title="Cart" id="basic-nav-dropdown">
                 {cartItems.map((item)=>(
@@ -144,8 +144,6 @@ function App() {
               )}
               {/* video no: 14 */}
 
-
-
               {/* video no: 24 Wishlist */}
               <NavDropdown title="Wishlist" id="basic-nav-dropdown">
                 {wishlistItems.map((item)=>(
@@ -185,7 +183,6 @@ function App() {
               )}
               {/* video no: 24 Wishlist */}
 
-
               {/* /* video no: 32 UserInfo */ }
               {userInfo 
               ?
@@ -201,18 +198,33 @@ function App() {
                       </Link>
                     </NavDropdown.Item>
                   :
-                    <NavDropdown.Item>          {/* class: 60 part-1 */}
+                    <NavDropdown.Item>                    {/* class: 60 part-1 */}
                       <Link className="item" to="/vendor">
                         Become a vendor
                       </Link>
                     </NavDropdown.Item>
                   }
 
-                  <NavDropdown.Item>             {/* class: 62 */}
+                  <NavDropdown.Item>                      {/* class: 62 */}
                     <Link className="item" to="/vertualcard">
                       Get A Virtual Cart
                     </Link>
                   </NavDropdown.Item>
+                  {userInfo.isAffiliate                /* class: 63 part-1 */
+                  ?
+                    <NavDropdown.Item>                     
+                      <Link className="item" to="/affiliateLink">
+                        Get Affiliate Link
+                      </Link>
+                    </NavDropdown.Item>
+                  :
+                    <NavDropdown.Item>        
+                      <Link className="item" to="/affiliate">
+                        Become a Affiliate
+                      </Link>
+                    </NavDropdown.Item>
+                  }
+                  
                   <NavDropdown.Item>
                     <Link className="item" to="/myorders">
                       My Orders
@@ -226,7 +238,7 @@ function App() {
               :
                 <Link className="item" to="/signin">Signin</Link>
               }
-              {/* /* video no: 32 UserInfo */ }
+              {/* video no: 32 UserInfo */ }
 
             </Nav>
           </Container>
@@ -302,17 +314,19 @@ function App() {
           <Route path="/products/:slug" element={<ProductDetails />} />
           <Route path="/cartpage" element={<CartPage />} />
           <Route path="/signin" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />       {/* video no: 38 */}
+          <Route path="/signup" element={<Signup />} />               {/* video no: 38 */}
           <Route path="/wishlist" element={<WishList />} />
           <Route path="/compare" element={<Compare />} />
-          <Route path="/payment" element={<Payment />} />     {/* video no: 39 */}
-          <Route path="/shipping" element={<Shipping />} />   {/* video no: 34 */}
+          <Route path="/payment" element={<Payment />} />             {/* video no: 39 */}
+          <Route path="/shipping" element={<Shipping />} />           {/* video no: 34 */}
           <Route path="/placeorder" element={<Placeorder />} /> 
-          <Route path="/orders/:id" element={<Order />} />    {/* video no: 47 */}
-          <Route path="/myorders" element={<MyOrder />} />    {/* video no: 54 */}
+          <Route path="/orders/:id" element={<Order />} />            {/* video no: 47 */}
+          <Route path="/myorders" element={<MyOrder />} />            {/* video no: 54 */}
           <Route path="/dashboard" element={<Dashboard />} />   
-          <Route path="/vendor" element={<Vendor />} />    {/* class: 60 part-1 */}
-          <Route path="/vertualcard" element={<VertualCard />} />    {/* class: 62 */}
+          <Route path="/vendor" element={<Vendor />} />               {/* class: 60 part-1 */}
+          <Route path="/vertualcard" element={<VertualCard />} />     {/* class: 62 */}
+          <Route path="/affiliate" element={<Affiliate />} />         {/* class: 63 part-1 */}
+          <Route path="/affiliateLink" element={<AffiliateLink />} /> {/* class: 63 part-1 */}
         </Routes>
       </BrowserRouter>
     </>

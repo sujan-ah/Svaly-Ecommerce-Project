@@ -6,9 +6,9 @@ import VertualCard from "../model/vertualModel.js"
 
 
 
-const userRouter = express.Router() /* vedio: 30 */
+const userRouter = express.Router()                             /* vedio: 30 */
 
-userRouter.post('/signin',async (req, res) => {  /* Login.jsx L-37 */
+userRouter.post('/signin',async (req, res) => {                 /* Login.jsx L-37 */
     let user = await User.findOne({email: req.body.email})
     if(user){
         if(bcrypt.compareSync(req.body.password, user.password)){
@@ -17,7 +17,8 @@ userRouter.post('/signin',async (req, res) => {  /* Login.jsx L-37 */
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
-                isVendor: user.isVendor,  /* class: 60 part-1 */
+                isVendor: user.isVendor,                /* class: 60 part-1 */
+                isAffiliate: user.isAffiliate,          /* class: 63 part-1 */
                 token: generateToken(user)
             })
             return
@@ -26,7 +27,7 @@ userRouter.post('/signin',async (req, res) => {  /* Login.jsx L-37 */
     res.status(401).send({msg: "Invalid Email or Password"})
 })
    
-userRouter.post('/signup', async(req, res) => {    /* video no: 38 Signup.jsx L-35 */
+userRouter.post('/signup', async(req, res) => {                 /* video no: 38 Signup.jsx L-35 */
     const newUser = {                           /* [Rules: 1] */
         name: req.body.name,
         email: req.body.email,
@@ -51,7 +52,7 @@ userRouter.post('/signup', async(req, res) => {    /* video no: 38 Signup.jsx L-
     })
 })
 
-userRouter.put('/vendor/:id', async(req, res) => {   {/* class: 60 part-1 Vendor.jsx L-17 */}
+userRouter.put('/vendor/:id', async(req, res) => {              /* class: 60 part-1 Vendor.jsx L-17 */
     User.findByIdAndUpdate(req.params.id,{isVendor: true},{new: true},function(err,docs){
         if(err){
             console.log(err);
@@ -61,7 +62,7 @@ userRouter.put('/vendor/:id', async(req, res) => {   {/* class: 60 part-1 Vendor
     })
 })
 
-userRouter.post('/vertualcart/:id', async (req,res)=>{      /* class: 62 */
+userRouter.post('/vertualcart/:id', async (req,res)=>{          /* class: 62 */
     let vertualcardInfo = {
         amount: req.body.amount,
         owner: req.body.owner,
@@ -70,8 +71,7 @@ userRouter.post('/vertualcart/:id', async (req,res)=>{      /* class: 62 */
     vertualcard.save()
     res.send("done")
 })
-
-userRouter.post('/vertualcardPayment', async (req,res)=>{      /* class: 62 */
+userRouter.post('/vertualcardPayment', async (req,res)=>{       /* class: 62 */
     // console.log(req.body);
     let data = await VertualCard.find({owner: req.body.owner})
     // console.log(data);
@@ -90,5 +90,49 @@ userRouter.post('/vertualcardPayment', async (req,res)=>{      /* class: 62 */
         })
     }
 })
+
+/* (Paypal) ami try korechi */
+userRouter.get('/vertualcartpaypal/:id', async (req,res)=>{  
+    // console.log(req.params.id);  
+    const order = await VertualCard.find({owner: req.params.id})
+    if(order){
+        res.send(order)
+        // console.log(order)
+    }else{
+        res.status(404).send({msg: "Order Not Found"})
+    }
+})
+
+userRouter.put('/vertualcartpaypal/:id/pay', async(req,res)=>{  /* vedio: 49 order.jsx L-72 (Paypal) */
+    console.log(req.params.id);
+    const order = await VertualCard.find({owner: req.params.id})
+    console.log(order);
+    res.send(order);
+    // if(order){
+    //     order.isPaid = true,
+    //     order.paidAt = Date.now(),
+    //     order.paymentResult = {
+    //         id: req.body.id,
+    //         update_time: req.body.update_time,
+    //         email_address: req.body.email_address,
+    //     }
+    //     const updateOrder = await order.save()
+    //     res.send({msg: "Order Paid", updateOrder})
+    // }else{
+    //     res.status(404).send({msg: "Order Not Found"})
+    // }
+})  
+/* (Paypal) ami try korechi */
+
+userRouter.put('/affiliate/:id', async(req, res) => {           /* class: 63 part-1 Affiliate.jsx L-19 */
+    User.findByIdAndUpdate(req.params.id,{isAffiliate: true},{new: true},function(err,docs){
+        if(err){
+            console.log(err);
+        }else{
+            res.send(docs)
+        }
+    })
+})
+
 
 export default userRouter
