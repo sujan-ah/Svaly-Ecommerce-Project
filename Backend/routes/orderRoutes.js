@@ -51,6 +51,7 @@ orderRouter.get('/:id', isAuth, async(req,res)=>{   /* vedio: 47 order.jsx L-104
 })   
 
 orderRouter.put('/:id/pay', isAuth, async(req,res)=>{   /* vedio: 49 order.jsx L-72 (Paypal) */
+    console.log(req.params.id);
     const order = await Order.findById(req.params.id)
     console.log(order);
     if(order){
