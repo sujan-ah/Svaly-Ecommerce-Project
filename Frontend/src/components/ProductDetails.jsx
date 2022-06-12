@@ -25,6 +25,9 @@ function reducer(state, action) {
 
 const ProductDetails = () => {
 
+  const {state3} = useContext(Store)
+  const {userInfo} = state3
+
   /* Class-50 */
   var settings = {  /* Slick Settings */
     dots: false,  /* true-> false for dot delete  */
@@ -56,7 +59,13 @@ const ProductDetails = () => {
   useEffect(async()=>{
     dispatch({type: 'FETCH_REQUEST'})
     try{
-      let product = await axios.get(`/products/${params.slug}`)
+      let nam;
+      if(userInfo){
+        if(userInfo.isAffiliate){
+          nam = userInfo.name
+        }
+      }
+      let product = await axios.get(`/products/${params.slug}?name=${nam}`)
       console.log(product);
       dispatch({type: 'FETCH_SUCCESS', payload: product.data})
 

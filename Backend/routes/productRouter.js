@@ -33,6 +33,7 @@ productRouter.get('/', async(req,res)=>{    /* ProductPage.jsx L-39 */
 // })
 
 productRouter.get('/:slug', async (req, res) => { /* vedio: 28 ProductDtails.jsx L-59 */
+    console.log(req.query);
     let product = await Product.findOne({slug: req.params.slug})
     if(product){
         res.send(product)

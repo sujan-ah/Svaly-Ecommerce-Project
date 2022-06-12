@@ -18,6 +18,7 @@ userRouter.post('/signin',async (req, res) => {  /* Login.jsx L-37 */
                 email: user.email,
                 isAdmin: user.isAdmin,
                 isVendor: user.isVendor,  /* class: 60 part-1 */
+                isAffiliate: user.isAffiliate, 
                 token: generateToken(user)
             })
             return
@@ -89,6 +90,18 @@ userRouter.post('/vertualcardPayment', async (req,res)=>{      /* class: 62 */
             }
         })
     }
+})
+
+userRouter.put('/affiliate/:id', async (req,res)=>{
+    // console.log(req.params.id);
+    User.findByIdAndUpdate(req.params.id, { isAffiliate: true },{new: true},function (err, docs) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            res.send(docs);
+        }
+    });
 })
 
 export default userRouter

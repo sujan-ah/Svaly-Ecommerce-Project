@@ -22,6 +22,8 @@ import MyOrder from "./components/MyOrder";
 import Dashboard from "./components/Dashboard";
 import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
+import Affiliate from "./components/Affiliate";
+import AffiliateLink from "./components/AffiliateLink";
 
 
 
@@ -213,6 +215,21 @@ function App() {
                       Get A Virtual Cart
                     </Link>
                   </NavDropdown.Item>
+                  {userInfo.isAffiliate
+                  ?
+                    <NavDropdown.Item>             
+                      <Link className="item" to="/affiliateLink">
+                        Get Affiliate Link
+                      </Link>
+                    </NavDropdown.Item>
+                  :
+                  <NavDropdown.Item>             
+                      <Link className="item" to="/affiliate">
+                        Become A Affiliate
+                      </Link>
+                    </NavDropdown.Item>
+                  }
+                  
                   <NavDropdown.Item>
                     <Link className="item" to="/myorders">
                       My Orders
@@ -313,6 +330,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />   
           <Route path="/vendor" element={<Vendor />} />    {/* class: 60 part-1 */}
           <Route path="/vertualcard" element={<VertualCard />} />    {/* class: 62 */}
+          <Route path="/affiliate" element={<Affiliate />} />    {/* class: 62 */}
+          <Route path="/affiliateLink" element={<AffiliateLink />} />    {/* class: 62 */}
         </Routes>
       </BrowserRouter>
     </>

@@ -27,6 +27,8 @@ const ProductPage = () => {
     const [details, setDetails] = useState([])      /* "" */
     const [searchmatch, setsearchmatch] = useState("") /* video: 51 */
 
+    const {state3} = useContext(Store)
+    const {userInfo} = state3
     
     const [{loading,product,error}, dispatch] = useReducer(reducer,{
         loading: false,
@@ -142,17 +144,32 @@ const ProductPage = () => {
                                 style={{height: 40}}
                             >
                                 <Card.Title>
-                                    <Link to={`/products/${item.slug}`}>
-                                        {item.name} {' '}
-                                        {item.totalsale > 60
-                                        ?
-                                            <Badge bg="warning">
-                                                Best Seller
-                                            </Badge>
-                                        :
-                                            ""
-                                        }
-                                    </Link>
+                                    {userInfo.isAffiliate
+                                    ?
+                                        <Link to={`/products/${item.slug}?name=${userInfo.name}`}>
+                                            {item.name} {' '}
+                                            {item.totalsale > 60
+                                            ?
+                                                <Badge bg="warning">
+                                                    Best Seller
+                                                </Badge>
+                                            :
+                                                ""
+                                            }
+                                        </Link>
+                                    :
+                                        <Link to={`/products/${item.slug}`}>
+                                            {item.name} {' '}
+                                            {item.totalsale > 60
+                                            ?
+                                                <Badge bg="warning">
+                                                    Best Seller
+                                                </Badge>
+                                            :
+                                                ""
+                                            }
+                                        </Link>
+                                    }
                                 </Card.Title>
 
                                 <Card.Text>
