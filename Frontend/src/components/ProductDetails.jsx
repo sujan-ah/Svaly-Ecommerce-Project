@@ -48,24 +48,37 @@ const ProductDetails = () => {
   const [errcupon, setErrcupon] = useState("") /* Class-50 */
   const [afterdiscountprice, setAfterdiscountprice] = useState("") /* Class-50 */
 
+  const [rating, setRating] = useState('')
+  const [ratingInfo, setRatingInfo] = useState('')
+  const [number, setNumber] = useState('')
+  const [five, setFive] = useState('')
+
+  // console.log(ratingInfo);
 
   const [{loading,product,error}, dispatch] = useReducer(reducer,{
     loading: false,
     product: {},
     error: '',
   });
+  // console.log(product._id);
   
   useEffect(async()=>{
     dispatch({type: 'FETCH_REQUEST'})
     try{
-      let nam;
+      let id;
       if(userInfo){
         if(userInfo.isAffiliate){
-          nam = userInfo.name
+          id = userInfo._id
+          let product = await axios.get(`/products/${params.slug}?id=${id}`)
+          console.log(product);
+          dispatch({type: 'FETCH_SUCCESS', payload: product.data})
+        }else{
+          let product = await axios.get(`/products/${params.slug}`)
+          console.log(product);
+          dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }
       }
-      let product = await axios.get(`/products/${params.slug}?name=${nam}`)
-      // let product = await axios.get(`/products/${item.slug}?name:${userInfo.name}`)
+      let product = await axios.get(`/products/${params.slug}`)
       console.log(product);
       dispatch({type: 'FETCH_SUCCESS', payload: product.data})
 
@@ -73,15 +86,25 @@ const ProductDetails = () => {
       let relatedproduct = await axios.get("/products")
       let filterItem = relatedproduct.data.filter((item)=> 
       item.catagory == product.data.catagory && item.name !== product.data.name)
-      
       setRelatedproduct(filterItem)
       /* class-49(dadu) */
-
-      
     }catch(err){
       dispatch({type: 'FETCH_FAILS', payload: err.message})
     }
+   
   },[params.slug])
+
+  useEffect(async()=>{                                          /* HW class: 64 */
+    let {data} = await axios.get(`/products/rating/info/${product._id}`) 
+    //  console.log(data[0].rating);
+    //  console.log(product._id);
+    setNumber(data.length)
+    {data.map((item)=>{
+      if(item.userId == userInfo._id){
+        setRatingInfo(item.rating)
+      }
+    })}
+  })
 
   const {state, dispatch: ctxDispatch} = useContext(Store)
 
@@ -143,6 +166,18 @@ const ProductDetails = () => {
     }
   }
   /* Class-50 */
+
+  let handleRating = async () =>{
+    console.log('ami');
+    let {data} = await axios.post('/products/rating',{
+      proId: product._id,
+      rating: rating,
+      userId: userInfo._id,
+    })
+  }
+
+  
+  
   
 
 
@@ -177,8 +212,8 @@ const ProductDetails = () => {
 
                 <ListGroup.Item>
                   <Rating 
-                    rating={product.rating} 
-                    numberofrating={product.numberofrating} 
+                    rating={ratingInfo} 
+                    numberofrating={number} 
                   />
                 </ListGroup.Item>
 
@@ -280,6 +315,8 @@ const ProductDetails = () => {
               
             </ListGroup>
             </Col>
+
+            
           </>
           :
           <Alert className='text-center mt-5' variant={"danger"}>
@@ -288,13 +325,85 @@ const ProductDetails = () => {
         }
       </Row>
 
-      {/* class-49(dadu) */}
+      
       <Row>
-        <h2 className='mt-5'>
+        <Form>
+          <Form.Check 
+            label="1 star"
+            value="1"
+            checked={rating == "1"}
+            onChange={(e)=> setRating(e.target.value)}
+          />
+          <Form.Check 
+            label="2 star"
+            value="2"
+            checked={rating == "2"}
+            onChange={(e)=> setRating(e.target.value)}
+          />
+          <Form.Check 
+            label="3 star"
+            value="3"
+            checked={rating == "3"}
+            onChange={(e)=> setRating(e.target.value)}
+          />
+          <Form.Check 
+            label="4 star"
+            value="4"
+            checked={rating == "4"}
+            onChange={(e)=> setRating(e.target.value)}
+          />
+          <Form.Check 
+            label="5 star"
+            value="5"
+            checked={rating == "5"}
+            onChange={(e)=> setRating(e.target.value)}
+          />
+
+        </Form>
+          
+        <Button 
+          variant="primary"
+          className='mt-3'
+          onClick={handleRating}
+        >
+          Continue
+        </Button>
+
+        <div className="mt-3">
+          <h6>
+            1 star
+            {' '}
+            <Badge>
+              
+            </Badge>
+          </h6>
+          <h6>
+            2 star
+            {' '}
+            <Badge></Badge>
+          </h6>
+          <h6>
+            3 star
+            {' '}
+            <Badge></Badge>
+          </h6>
+          <h6>
+            4 star
+            {' '}
+            <Badge></Badge>
+          </h6>
+          <h6>
+            5 star
+            {' '}
+            <Badge> {five}</Badge>
+          </h6>
+        </div>
+
+        <h2 className='mt-5'>                                  {/* class-49(dadu) */}
           Related Product
         </h2>
 
-        {relatedproduct.length > 0
+        {relatedproduct.length > 0                   
         ?
           <Slider {...settings}>
             {relatedproduct.map((item)=>(
@@ -326,7 +435,7 @@ const ProductDetails = () => {
           </Alert>
         }
       </Row>
-      {/* class-49(dadu) */}
+      
     </Container>
   ) 
 };

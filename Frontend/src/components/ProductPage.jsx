@@ -27,22 +27,35 @@ const ProductPage = () => {
     const [details, setDetails] = useState([])      /* "" */
     const [searchmatch, setsearchmatch] = useState("") /* video: 51 */
 
+    const [ratingInfo, setRatingInfo] = useState('')
+    const [number, setNum] = useState('')
     
     const [{loading,product,error}, dispatch] = useReducer(reducer,{
         loading: false,
         product: [],
         error: '',
     });
+
+    // console.log(product);
+
+
     useEffect(async()=>{
         dispatch({type: 'FETCH_REQUEST'})
         try{
             let product = await axios.get("/products")
-            console.log(product.data);
+            // console.log(product.data);
             dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }catch(err){
             dispatch({type: 'FETCH_FAILS', payload: err.message})
         }
     },[])
+
+    // useEffect(()=>{                             /* HW class: 63 */
+    //     {product.map(async(item)=>{
+    //         let {data} = await axios.get(`/products/rating/information/${item._id}`)
+    //         console.log(data);
+    //     })}
+    // })
 
     let handleDetails = async (pro) =>{  /* video no: 23 Modal use*/
         setLgShow(true)
@@ -106,6 +119,7 @@ const ProductPage = () => {
     }
     /* video: 51 */
 
+    console.log(userInfo);
 
   return (
     <>
@@ -146,30 +160,34 @@ const ProductPage = () => {
                                     {userInfo
                                     ?
                                         userInfo.isAffiliate
+
                                         ?
-                                        <Link to={`/products/${item.slug}?name=${userInfo.name}`}>
-                                            {item.name} {' '}
-                                            {item.totalsale > 60
-                                            ?
-                                                <Badge bg="warning">
-                                                    Best Seller
-                                                </Badge>
-                                            :
-                                                ""
-                                            }
-                                        </Link>
+                                            <Link to={`/products/${item.slug}?id=${userInfo._id}`}>
+                                                {item.name} {' '}
+                                                {item.totalsale > 60
+                                                ?
+                                                    <Badge bg="warning">
+                                                        Best Seller
+                                                    </Badge>
+                                                :
+                                                    ""
+                                                }
+                                            </Link>
                                         :
-                                        <Link to={`/products/${item.slug}`}>
-                                            {item.name} {' '}
-                                            {item.totalsale > 60
-                                            ?
-                                                <Badge bg="warning">
-                                                    Best Seller
-                                                </Badge>
-                                            :
-                                                ""
-                                            }
-                                        </Link>
+                                            <Link to={`/products/${item.slug}`}>
+                                                {item.name} {' '}
+                                                {item.totalsale > 60
+                                                ?
+                                                    <Badge bg="warning">
+                                                        Best Seller
+                                                    </Badge>
+                                                :
+                                                    ""
+                                                }
+                                            </Link>
+                                        
+                                      
+                                       
                                     :
                                         <Link to={`/products/${item.slug}`}>
                                             {item.name} {' '}
@@ -187,8 +205,8 @@ const ProductPage = () => {
 
                                 <Card.Text>
                                     <Rating 
-                                        rating={item.rating} 
-                                        numberofrating={item.numberofrating} 
+                                        // rating={item.rating} 
+                                        // numberofrating={number} 
                                     />
                                     {/* {item.description} */}
                                 </Card.Text>

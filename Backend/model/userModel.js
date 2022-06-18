@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({ /* vedio: 29 */
         required: true,
         unique: true
     },
-    
     password:{
         type: String,
         required: true,
