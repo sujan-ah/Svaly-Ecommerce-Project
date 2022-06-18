@@ -214,7 +214,7 @@ function App() {
                   ?
                     <NavDropdown.Item>                     
                       <Link className="item" to="/affiliateLink">
-                        Get Affiliate Link
+                        Get Affiliate Info
                       </Link>
                     </NavDropdown.Item>
                   :

@@ -1,19 +1,24 @@
 import axios from 'axios';
-import { useEffect,useState } from 'react';
-import { Container } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
+import { useEffect,useState,useContext } from 'react';
+import { Container,Table } from 'react-bootstrap';
+import {Store} from '../Store'
+
 
 const AffiliateLink = () => {           /* class: 63 part-1 */
     const [product,setProduct] = useState([])
 
+    const {state3} = useContext(Store)
+    const {userInfo} = state3
+
+
     useEffect(()=>{
         async function Pro(){
-            let {data} = await axios.get('/products')
+            let {data} = await axios.get(`/products/affiliat/info/${userInfo._id}`)
             setProduct(data);
+            console.log(data);
         }
         Pro()
-    })
-
+    },[])
 
   return (
     <Container>
@@ -21,18 +26,14 @@ const AffiliateLink = () => {           /* class: 63 part-1 */
         <thead>
             <tr>
             <th>Serial</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Link</th>
+            <th>Amount</th>
             </tr>
         </thead>
         <tbody>
             {product.map((item,index)=>(
                 <tr>
                 <td>{index+1}</td>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>Copy Link</td>
+                <td>{item.amount}</td>
                 </tr>
             ))}
         </tbody>
