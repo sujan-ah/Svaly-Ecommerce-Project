@@ -65,21 +65,16 @@ const ProductDetails = () => {
   useEffect(async()=>{
     dispatch({type: 'FETCH_REQUEST'})
     try{
-      let id;
       if(userInfo){
         if(userInfo.isAffiliate){
-          id = userInfo._id
-          let product = await axios.get(`/products/${params.slug}?id=${id}`)
-          console.log(product);
+          let product = await axios.get(`/products/${params.slug}?id=${userInfo._id}`)
           dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }else{
           let product = await axios.get(`/products/${params.slug}`)
-          console.log(product);
           dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }
       }
       let product = await axios.get(`/products/${params.slug}`)
-      console.log(product);
       dispatch({type: 'FETCH_SUCCESS', payload: product.data})
 
       /* class-49(dadu) */
@@ -96,8 +91,6 @@ const ProductDetails = () => {
 
   useEffect(async()=>{                                          /* HW class: 64 */
     let {data} = await axios.get(`/products/rating/info/${product._id}`) 
-    //  console.log(data[0].rating);
-    //  console.log(product._id);
     setNumber(data.length)
     {data.map((item)=>{
       if(item.userId == userInfo._id){
@@ -175,10 +168,6 @@ const ProductDetails = () => {
       userId: userInfo._id,
     })
   }
-
-  
-  
-  
 
 
   const props = {width: 400, height: 400,zoomPosition: "right", zoomWidth: 400, img: product.img};
