@@ -9,6 +9,7 @@ import VertualCard from "../model/vertualModel.js"
 const userRouter = express.Router()                             /* vedio: 30 */
 
 userRouter.post('/signin',async (req, res) => {                 /* Login.jsx L-37 */
+   
     let user = await User.findOne({email: req.body.email})
     if(user){
         if(bcrypt.compareSync(req.body.password, user.password)){
@@ -28,6 +29,7 @@ userRouter.post('/signin',async (req, res) => {                 /* Login.jsx L-3
 })
    
 userRouter.post('/signup', async(req, res) => {                 /* video no: 38 Signup.jsx L-35 */
+    console.log(req.body);
     const newUser = {                           /* [Rules: 1] */
         name: req.body.name,
         email: req.body.email,

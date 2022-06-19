@@ -8,7 +8,6 @@ import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js'
 import orderRouter from './routes/orderRoutes.js';
 
-
 const app = express()
 
 dotenv.config()   /* eti .env file hote sob varriable niye cole asbe */
@@ -34,55 +33,13 @@ app.use('/products', productRouter) /* vedio: 28 */
 app.use('/api/users', userRouter) /* vedio: 30 */
 app.use('/api/orders', orderRouter) /* vedio: 45 */
 
-
-// app.get('/products', function (req, res) {
-//   res.send(data)
-// })
-
-// app.get('/products/:slug', function (req, res) {
-//   let product = data.find((item)=>{
-//     // console.log("backend",item.slug);
-//     // console.log("frontend",req.params.slug);
-//     if(req.params.slug == item.slug){
-//       return item
-//     }
-//   })
-//   // console.log(product);
-//   res.send(product)
-// })
-
-/* vedio: 51*/
 app.get('/discount', function (req, res) {
   res.send(discount)
 })
 
-app.get('/catagory/:cat', function (req, res) {
-  let catagoryArr = []
-  data.find((item)=>{
-    if(req.params.cat == item.catagory){
-      catagoryArr.push(item)
-      console.log(item)
-    }
-  })
-  res.send(catagoryArr)
-})
-/* vedio: 51*/
-
-/* class 46 */
-app.get('/cartproduct/:id', function (req, res) {
-
-  let product = data.find((item)=>{
-    if(req.params.id == item._id){
-      return item
-    }
-  })
-  res.send(product)
-})
-/* class 46 */
 
 let port = process.env.PORT || 8000
 
 app.listen(8000,()=>{
   console.log("port 8000");
 })
-

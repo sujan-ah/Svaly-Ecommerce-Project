@@ -7,7 +7,7 @@ import User from '../model/userModel.js'
 
 const productRouter = express.Router()
 
-productRouter.post('/', async (req,res)=>{                        /* class: 61 part-2 Dashboard.jsx L-68*/
+productRouter.post('/', async (req,res)=>{                           /* class: 61 part-2 Dashboard.jsx L-68*/
     let productInfo = {
         name: req.body.name,
         img: req.body.image,
@@ -25,17 +25,56 @@ productRouter.post('/', async (req,res)=>{                        /* class: 61 p
     product.save()
 })
 
-productRouter.get('/', async(req,res)=>{                          /* ProductPage.jsx L-39 */
-    const products = await Product.find()
+productRouter.get('/', async(req,res)=>{                             /* ProRating HW class: 64 */
+    const products = await Product.find({}).populate("rating")
+    console.log(products);
     res.send(products)
 })
+ 
+productRouter.post('/singleProRating', async (req,res)=>{            /* ProRating HW class: 64 */
+    let ratingInfo = {
+        proId: req.body.proId,
+        rating: req.body.rating,
+        userId: req.body.userId,
+    }
+    const rating = new Rating(ratingInfo)
+    rating.save()
+      
+    let data = await Rating.find({proId: req.body.proId})
+    // console.log(data._id);
+    // let star = await Product.findOneAndUpdate({id: req.body.proId},{rating: data._id},{new: true})
+    // console.log(star);
 
-// productRouter.get('/', async(req,res)=>{                       /* class: 61 part-2 */
-//     const products = await Cat.find()
-//     res.send(products)
-// })
+    if(data){
+        Product.findByIdAndUpdate(req.body.proId, {rating: data._id}, {new: true}, 
+            function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Updated User : ", docs);
+            }
+        });
+    }
+ 
+    
+})
+ 
+productRouter.get('/singleProRating/info/:id', async (req,res)=>{    /* ProRating HW class: 64 */
+    let data = await Rating.find({proId: req.params.id})
+    res.send(data);
+})
 
-productRouter.get('/:slug', async (req, res) => {                 /* vedio: 28 ProductDtails.jsx L-59 */
+
+
+productRouter.get('/catagory/:cat', async (req, res) => {            /* HomePage.jsx L-41 */
+    console.log(req.params.cat);
+    const catagory = await Product.find({catagory: req.params.cat})
+    console.log(catagory);
+    res.send(catagory)
+})
+
+productRouter.get('/:slug', async (req, res) => {                    /* vedio: 28 ProductDtails.jsx L-59 */
     
     /* class: 64 */
     if(req.query.id){
@@ -75,39 +114,14 @@ productRouter.get('/:slug', async (req, res) => {                 /* vedio: 28 P
     /* class: 64 */
 })
 
-productRouter.get('/affiliat/info/:id', async (req,res)=>{        /* class: 64 */
+productRouter.get('/affiliat/info/:id', async (req,res)=>{           /* class: 64 */
 console.log("djfdkj");
     let data = await Affiliates.find({owner: req.params.id})
     res.send(data)
     console.log(data)
 })
 
-productRouter.post('/rating', async (req,res)=>{                  /* HW class: 64 */
-    // console.log(req.body.proId);
-    // console.log(req.body.rating);
-    let ratingInfo = {
-        proId: req.body.proId,
-        rating: req.body.rating,
-        userId: req.body.userId,
-    }
-    const rating = new Rating(ratingInfo)
-    rating.save()
-})
-
-productRouter.get('/rating/info/:id', async (req,res)=>{          /* HW class: 64 */
-    // console.log(req.params.id);
-    let data = await Rating.find({proId: req.params.id})
-    // console.log(data);
-    res.send(data);
-})
-
-// productRouter.get('/rating/information/:id', async (req,res)=>{          /* HW class: 64 */
-//     // console.log(req.params.id);
-//     let data = await Rating.find({proId: req.params.id})
-//     res.send(data);
-// })
-
-productRouter.post('/storename', async (req, res) => {            /* class: 60 part-2 Storename.jsx L-22 */
+productRouter.post('/storename', async (req, res) => {               /* class: 60 part-2 Storename.jsx L-22 */
     let storenameInfo = {
         name: req.body.name,
         owner: req.body.id,
@@ -118,19 +132,13 @@ productRouter.post('/storename', async (req, res) => {            /* class: 60 p
     // console.log(storename);
 })
 
-productRouter.get('/storename/:id', async (req, res) => {         /* class: 60 part-2 Storename.jsx L-40 */
+productRouter.get('/storename/:id', async (req, res) => {            /* class: 60 part-2 Storename.jsx L-40 */
     let data = await Storename.find({owner: req.params.id})
     res.send(data)
     // console.log(data)
 })
 
-// productRouter.get('/:id', async (req,res)=>{
-//     console.log(req.params);
-//     const storename = await Storename.findById(req.params.id)
-//     res.send(storename)
-// })
-
-productRouter.put('/storename/edit', async (req,res)=>{           /* Storename.jsx L-32 */
+productRouter.put('/storename/edit', async (req,res)=>{              /* Storename.jsx L-32 */
     let pro = {
         name: req.body.name,
     }
@@ -144,12 +152,12 @@ productRouter.put('/storename/edit', async (req,res)=>{           /* Storename.j
     });
 })
 
-productRouter.get('/productlist/:id', async (req, res)=>{         /* vedio: 60 Dashboard.jsx L- */  
+productRouter.get('/productlist/:id', async (req, res)=>{            /* vedio: 60 Dashboard.jsx L- */  
     let data = await Product.find({owner: req.params.id})
     res.send(data)
 })
 
-productRouter.post('/productlist/del', async (req,res)=>{         /* HW video: 62 */
+productRouter.post('/productlist/del', async (req,res)=>{            /* HW video: 62 */
     Product.findByIdAndDelete(req.body.id, function (err, docs) {
         if (err){
             console.log(err)
