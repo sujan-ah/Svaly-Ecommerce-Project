@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({ /* vedio: 29 */
     isAdmin:{
         type: Boolean,
         default: false,
-        requireds: true,
+        required: true,
     },
     isVendor:{          /* class: 60 part-1 */
         type: Boolean,

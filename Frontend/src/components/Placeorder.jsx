@@ -24,6 +24,8 @@ const Placeorder = () => {  /* Vedio - 42 */
     /*Place order Vedio - 45 */
     let navigate = useNavigate()
 
+   
+
     const [{loading},dispatch] = useReducer(reducer,{
         loading: false,
     })
@@ -32,6 +34,7 @@ const Placeorder = () => {  /* Vedio - 42 */
     const {state,dispatch:ctxdispatch, state4,dispatch4, state5,dispatch5, state3} = useContext(Store)
     const {userInfo} = state3 /*Place order Vedio - 45 */
     // console.log(userInfo);
+
     
 
     const [paymentMethod, setPaymentMethod] = useState(state5.paymentMethod ? state5.paymentMethod : '')
@@ -115,6 +118,17 @@ const Placeorder = () => {  /* Vedio - 42 */
         
     }, [state.cart.cartItems])
     {/* Payment Summary Vedio:44 */}
+
+    // const [product, setProduct] = useState([])
+    // console.log(product);
+    // let pro = []
+    // useEffect(async()=>{
+    //     state.cart.cartItems.map((item)=>{
+    //         pro.push(item);
+    //     })
+    //     setProduct(pro);
+    // },[])
+    
     /*Place order Vedio - 45 */
     let handlePlaceOrder = async () =>{ 
         // console.log('ami'); 
@@ -136,6 +150,7 @@ const Placeorder = () => {  /* Vedio - 42 */
                     }
                 },
             )
+            console.log(data);
             ctxdispatch({type: 'CLEAR_CART'})
             localStorage.removeItem('cartItems')
             dispatch({type: 'CREATE_SUCCESS'})
@@ -144,14 +159,13 @@ const Placeorder = () => {  /* Vedio - 42 */
             dispatch({type: 'CREATE_FAIL'})
             toast.error(err)
         }
+
+        let {data} = await axios.post('/products/affiliatedata',{       /* AffiliateInfo HW */
+            userId: userInfo._id,
+            pro: state.cart.cartItems,
+        })
     }
-    /*Place order Vedio - 45 */
-    
-    // useEffect(() => {   /* ami diyechi */
-    //     if(!userInfo){
-    //         navigate('/signin')
-    //     }
-    // }, [])
+
 
   return (
     <Container>

@@ -11,12 +11,8 @@ const Signup = () => {
     
 
     let {search} = useLocation()
-    console.log(search);
-    
     let redirectUrl = new URLSearchParams(search).get('redirect')
-    console.log(redirectUrl);
     let redirect = redirectUrl ? redirectUrl : '/'
-    console.log(redirect);
 
     
     /* video no: 32 UserInfo */ 

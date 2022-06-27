@@ -39,7 +39,7 @@ const MyOrder = () => {     /* vedio: 54 */
                         authorization: `Bearer ${userInfo.token}`
                     }
                 })
-                console.log(data);
+                // console.log(data);
                 dispatch({type: 'FETCH_SUCCESS', payload: data})
             }catch(err){
                 dispatch({type: 'FETCH_SUCCESS', payload: err.message})
