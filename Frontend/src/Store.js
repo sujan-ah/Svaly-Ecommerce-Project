@@ -9,7 +9,6 @@ const initialState = {
     : [] /* class 47 */
   },
 };
-
 function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD_ITEMS":
@@ -64,17 +63,14 @@ function reducer(state, action) {
   }
 }
 
-
-/* video no: 24 Wishlist */
-const initialState2 = {
+const initialState2 = {                              /* video: 24 Wishlist */
   wishlist: {
     wishlistItems: localStorage.getItem("wishlistItems") 
     ? JSON.parse(localStorage.getItem("wishlistItems")) 
     : [] /* class 47 */
   },
 };
-
-function reducer2(state, action) {
+function reducer2(state, action) {                   /* video: 24 Wishlist */
   switch (action.type) {
     case "WISHLIST_ADD_ITEMS":
     /* class 46 */
@@ -116,16 +112,13 @@ function reducer2(state, action) {
     return state;
   }
 }
-/* video no: 24 Wishlist */
 
-/* video no: 32 User */
-const userInitialState = {
+const userInitialState = {                           /* video: 32 User */
   userInfo: localStorage.getItem("userInfo") 
   ? JSON.parse(localStorage.getItem("userInfo")) 
   : null
 }
-
-function userreducer (state, action) {
+function userreducer (state, action) {               /* video: 32 User */
   switch (action.type) {
     case "USER_SIGNIN":
       return {...state, userInfo: action.payload}
@@ -138,16 +131,13 @@ function userreducer (state, action) {
       return state;
   }
 }
-/* video no: 32 User */
 
-/* video no: 33 User */
-const shippingInitialState = {
+const shippingInitialState = {                       /* video: 33 shipping */
   shippingaddress: localStorage.getItem("shippingaddress") 
   ? JSON.parse(localStorage.getItem("shippingaddress")) 
   : {}
 }
-
-function shippingreducer (state, action) {
+function shippingreducer (state, action) {           /* video: 33 shipping */
   switch (action.type) {
     case "SHIPPING_ADDRESS":
       return {...state, shippingaddress: action.payload}
@@ -156,16 +146,13 @@ function shippingreducer (state, action) {
       return state;
   }
 }
-/* video no: 33 User */
 
-/* video no: 41 payment */
-const paymentInitialState = {
+const paymentInitialState = {                        /* video: 41 payment */
   paymentMethod: localStorage.getItem("paymentMethod") 
   ? JSON.parse(localStorage.getItem("paymentMethod")) 
   : ""
 }
-
-function paymentreducer (state, action) {
+function paymentreducer (state, action) {            /* video: 41 payment */
   switch (action.type) {
     case "PAYMENT_METHOD":
     return {...state, paymentMethod: action.payload}
@@ -174,19 +161,34 @@ function paymentreducer (state, action) {
     return state;
   }
 }
-/* video no: 41 User */
+
+const AdminUserInitialState = {                           /* video: 67 HW AdminUser*/
+AdminUserInfo: localStorage.getItem("AdminUserInfo") 
+  ? JSON.parse(localStorage.getItem("AdminUserInfo")) 
+  : null
+}
+function AdminUserreducer (state, action) {               /* video: 67 HW AdminUser*/
+  switch (action.type) {
+    case "ADMINUSER_SIGNIN":
+      return {...state, AdminUserInfo: action.payload}
+
+      default:
+      return state;
+  }
+}
 
 
 
 function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [state2, dispatch2] = useReducer(reducer2, initialState2);  /* v: 24 Wishlist */
-  const [state3, dispatch3] = useReducer(userreducer, userInitialState);  /* v: 24 Wishlist */
-  const [state4, dispatch4] = useReducer(shippingreducer, shippingInitialState);/* v: 24 Wishlist */ 
+  const [state2, dispatch2] = useReducer(reducer2, initialState2);             
+  const [state3, dispatch3] = useReducer(userreducer, userInitialState);    
+  const [state4, dispatch4] = useReducer(shippingreducer, shippingInitialState); 
   const [state5, dispatch5] = useReducer(paymentreducer, paymentInitialState);
+  const [AdminUserState, AdminUserDispatch] = useReducer(AdminUserreducer, AdminUserInitialState);
 
 
-  const value = { state,dispatch, state2,dispatch2, state3,dispatch3, state4, dispatch4, state5, dispatch5 };  /* eta mane state: state, dispatch:dispatch */
+  const value = { state,dispatch, state2,dispatch2, state3,dispatch3, state4, dispatch4, state5, dispatch5, AdminUserState,AdminUserDispatch };  /* eta mane state: state, dispatch:dispatch */
   return <Store.Provider value={value}>
     {props.children}
   </Store.Provider>;

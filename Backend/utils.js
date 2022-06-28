@@ -2,12 +2,12 @@ import jwt from "jsonwebtoken"
 
 export const generateToken = (user)=>{ /* vedio: 30 */
     return jwt.sign({user},process.env.JWT_SECRET,{
-        expiresIn: "30d"
+        expiresIn: "50d"
     })
 }
 
 export const isAuth = (req,res,next)=>{   /* vedio: 45 */
-// console.log("utils");
+    // console.log("utils");
     const authorization = req.headers.authorization
     // console.log("authorization");
     if(authorization){

@@ -92,6 +92,7 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
 
   let handleProductSubmit = async (e) =>{       /* class: 61 part-1 */
     e.preventDefault()
+    
     if(!name || !image || !price || !slug || !stock  ){
       toast.error("Please Fill The All field")
     }else if(localStorage.getItem('text') == ''){
@@ -110,7 +111,8 @@ const Dashboard = () => {     {/* class: 60 part-2 */}
         total: total,  
         owner: state3.userInfo._id,
       })
-    }
+      navigate('/products')
+    } 
   }  
 
   let handleProListDelete = async (id) =>{        /* HW video: 62 */

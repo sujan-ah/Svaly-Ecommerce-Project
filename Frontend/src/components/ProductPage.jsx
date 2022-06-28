@@ -43,7 +43,7 @@ const ProductPage = () => {
         dispatch({type: 'FETCH_REQUEST'})
         try{
             let product = await axios.get("/products")
-            // console.log(product.data);
+            console.log(product.data);
             dispatch({type: 'FETCH_SUCCESS', payload: product.data})
         }catch(err){
             dispatch({type: 'FETCH_FAILS', payload: err.message})
@@ -69,15 +69,16 @@ const ProductPage = () => {
     const {userInfo} = state3       /* class: 63 part-1 */
 
     let handleAddToCart = async (product) =>{
+        console.log('ami');
         const existingItem = cart.cartItems.find((item)=>item._id === product._id)
         const quantity = existingItem ? existingItem.quantity + 1 : 1
         
-        const {data} = await axios.get(`/cartproduct/${product._id}`)
-        console.log(data); 
-        if(data.instock < quantity){
-          window.alert(`${product.name} out of stock`)
-          return
-        }
+        // const {data} = await axios.get(`/cartproduct/${product._id}`)
+        // console.log(data); 
+        // if(data.instock < quantity){
+        //   window.alert(`${product.name} out of stock`)
+        //   return
+        // }
        
         ctxDispatch({
           type: 'CART_ADD_ITEMS',
@@ -119,7 +120,6 @@ const ProductPage = () => {
     }
     /* video: 51 */
 
-    console.log(userInfo);
 
   return (
     <>
@@ -204,11 +204,17 @@ const ProductPage = () => {
                                 </Card.Title>
 
                                 <Card.Text>
-                                    <Rating 
-                                        // rating={item.rating} 
-                                        // numberofrating={number} 
-                                    />
-                                    {/* {item.description} */}
+                                    {item.rating ?
+                                        <Rating 
+                                            rating={item.rating.rating} 
+                                            // numberofrating={number} 
+                                        />
+                                        :
+                                        <Rating 
+                                            rating={item.rating} 
+                                            // numberofrating={number} 
+                                        />
+                                    }
                                 </Card.Text>
                             
                                 <Card.Text className='py-0'>

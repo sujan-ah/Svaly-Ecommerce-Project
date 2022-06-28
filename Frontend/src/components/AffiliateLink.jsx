@@ -6,6 +6,7 @@ import {Store} from '../Store'
 
 const AffiliateLink = () => {           /* class: 63 part-1 */
     const [product,setProduct] = useState([])
+    const [total,setTotal] = useState([])
 
     const {state3} = useContext(Store)
     const {userInfo} = state3
@@ -15,7 +16,12 @@ const AffiliateLink = () => {           /* class: 63 part-1 */
         async function Pro(){
             let {data} = await axios.get(`/products/affiliat/info/${userInfo._id}`)
             setProduct(data);
-            console.log(data);
+
+            let totalAmount = 0      /* class: 65 part-2 */
+            data.map((item)=>(
+                totalAmount += item.amount
+            ))
+            setTotal(totalAmount);
         }
         Pro()
     },[])
@@ -36,6 +42,10 @@ const AffiliateLink = () => {           /* class: 63 part-1 */
                 <td>{item.amount}</td>
                 </tr>
             ))}
+            <tr>                        {/* class: 65 part-2 */}
+                <td>Total</td>
+                <td>{total}</td>
+                </tr>
         </tbody>
         </Table>
     </Container>

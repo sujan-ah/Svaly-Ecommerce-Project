@@ -2,17 +2,17 @@ import mongoose from "mongoose";
 
 const ratingSchema = new mongoose.Schema({    /* HW class: 63 */
    
-    proId: {
-        type: String,
-        required: true
-    },
+    // proId: {
+    //     // type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Product'
+    // },
     rating: {
-        type: String,
+        type: Number,
         required: true
     },
     userId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
 })
 

@@ -10,16 +10,11 @@ const Login = () => {
     const navigate = useNavigate() /* video no: 32 UserInfo */ 
     
     let {search, state} = useLocation()
-    // console.log(search);
-
     // if(state){
     //     toast.success(state)
     // }
-
     let redirectUrl = new URLSearchParams(search).get('redirect')
-    console.log(redirectUrl);
     let redirect = redirectUrl ? redirectUrl : '/'
-    console.log(redirect);
 
     
     /* video no: 32 UserInfo */ 

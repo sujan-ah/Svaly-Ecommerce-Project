@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar, Container, Nav, Badge,NavDropdown,Button,Offcanvas, NavItem } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductPage from "./components/ProductPage";
@@ -24,6 +24,11 @@ import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
 import Affiliate from "./components/Affiliate";
 import AffiliateLink from "./components/AffiliateLink";
+import AdminDashboard from "./components/AdminDashboard";
+import AdminUserList from "./components/AdminUserList";
+import AdminRollManagement from "./components/AdminRollManagement";
+import AdminSignin from "./components/AdminSignin";
+import AdminProductList from "./components/AdminProductList";
 
 
 
@@ -75,6 +80,9 @@ function App() {
     // navigate('/signin')
   }
   /* video no: 32 UserInfo */
+
+  
+
 
   return (
     <>
@@ -190,6 +198,13 @@ function App() {
                   title={userInfo.name} 
                   id="basic-nav-dropdown"
                 >
+                  {userInfo.isAdmin &&                /* class: 66 part-1 */
+                    <NavDropdown.Item>
+                      <Link className="item" to="/admin">
+                        Admin Dashboard
+                      </Link>
+                    </NavDropdown.Item>
+                  }
                   {userInfo.isVendor
                   ?
                     <NavDropdown.Item>
@@ -204,6 +219,7 @@ function App() {
                       </Link>
                     </NavDropdown.Item>
                   }
+                  
 
                   <NavDropdown.Item>                      {/* class: 62 */}
                     <Link className="item" to="/vertualcard">
@@ -327,6 +343,11 @@ function App() {
           <Route path="/vertualcard" element={<VertualCard />} />     {/* class: 62 */}
           <Route path="/affiliate" element={<Affiliate />} />         {/* class: 63 part-1 */}
           <Route path="/affiliateLink" element={<AffiliateLink />} /> {/* class: 63 part-1 */}
+          <Route path="/admin" element={<AdminDashboard />} />        {/* class: 66 part-1 */}
+          <Route path="/adminUserlist" element={<AdminUserList />} /> {/* class: 66 part-1 */}
+          <Route path="/adminProductlist" element={<AdminProductList />} /> {/* class: 66 Hw */}
+          <Route path="/adminrollmanage" element={<AdminRollManagement />} /> {/* class: 66 part-2 */}
+          <Route path="/adminsignin" element={<AdminSignin />} />     {/* class: 67 */}
         </Routes>
       </BrowserRouter>
     </>

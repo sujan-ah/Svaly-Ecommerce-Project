@@ -27,11 +27,17 @@ productRouter.post('/', async (req,res)=>{                           /* class: 6
 
 productRouter.get('/', async(req,res)=>{                             /* ProRating HW class: 64 */
     const products = await Product.find({}).populate("rating")
-    console.log(products);
+    // console.log(products);
+    res.send(products)
+})
+
+productRouter.get('/adminProList', async(req,res)=>{                             /* class: 66 HW AdminProductList.jsx L-12*/
+    const products = await Product.find({})
     res.send(products)
 })
  
 productRouter.post('/singleProRating', async (req,res)=>{            /* ProRating HW class: 64 */
+    console.log(req.body);
     let ratingInfo = {
         proId: req.body.proId,
         rating: req.body.rating,
@@ -39,83 +45,142 @@ productRouter.post('/singleProRating', async (req,res)=>{            /* ProRatin
     }
     const rating = new Rating(ratingInfo)
     rating.save()
-      
-    let data = await Rating.find({proId: req.body.proId})
-    // console.log(data._id);
-    // let star = await Product.findOneAndUpdate({id: req.body.proId},{rating: data._id},{new: true})
-    // console.log(star);
-
-    if(data){
-        Product.findByIdAndUpdate(req.body.proId, {rating: data._id}, {new: true}, 
-            function (err, docs) {
-            if (err){
-                console.log(err)
-            }
-            else{
-                console.log("Updated User : ", docs);
-            }
-        });
-    }
+    let pro = await findOne({_id: req.body.proId})
+    console.log(pro);
+   
  
     
 })
- 
+
 productRouter.get('/singleProRating/info/:id', async (req,res)=>{    /* ProRating HW class: 64 */
     let data = await Rating.find({proId: req.params.id})
     res.send(data);
 })
 
+productRouter.post('/affiliatedata/:id', async (req,res)=>{
 
+    console.log(req.params);
+    // console.log(req.query);
+    // let user = await User.findById(req.params.id)
+    // console.log(user);
+    // if(user.isAffiliate){
+    //     let product = await Product.findOne({slug: req.params.slug})
+    //     console.log(product);
+    // }
+
+    // if(req.query.id){
+    //     let user = await User.findById(req.query.id)
+    //     if(user.isAffiliate){
+    //         let product = await Product.findOne({slug: req.params.slug})
+    //         // console.log((product.price*10)/100);
+    //         if(product){
+    //             let affiliateInfo = {
+    //                 amount: (product.price*10)/100,
+    //                 owner: req.query.id
+    //             }
+                
+    //             const affiliate = new Affiliates(affiliateInfo)
+    //             affiliate.save()
+    //             res.send(product)
+    //         }else{
+    //             res.status(404).send({msg: 'Product Not Found'})
+    //         }
+
+    //     }else{
+    //         let product = await Product.findOne({slug: req.params.slug})
+    //         if(product){
+    //             res.send(product)
+    //         }else{
+    //             res.status(404).send({msg: 'Product Not Found'})
+    //         }
+    //     }
+    // }else{
+    //     let product = await Product.findOne({slug: req.params.slug})
+    //     if(product){
+    //         res.send(product)
+    //     }else{
+    //         res.status(404).send({msg: 'Product Not Found'})
+    //     }
+    // }
+})
 
 productRouter.get('/catagory/:cat', async (req, res) => {            /* HomePage.jsx L-41 */
-    console.log(req.params.cat);
+    // console.log(req.params.cat);
     const catagory = await Product.find({catagory: req.params.cat})
-    console.log(catagory);
+    // console.log(catagory);
     res.send(catagory)
 })
 
-productRouter.get('/:slug', async (req, res) => {                    /* vedio: 28 ProductDtails.jsx L-59 */
-    
-    /* class: 64 */
-    if(req.query.id){
-        let user = await User.findById(req.query.id)
-        if(user.isAffiliate){
-            let product = await Product.findOne({slug: req.params.slug})
-            // console.log((product.price*10)/100);
-            if(product){
+productRouter.post('/affiliatedata',async(req,res)=>{    /* AffiliateInfo HW */
+    // console.log(req.body.userId);
+    // console.log(req.body.pro);
+    let user = await User.findById(req.body.userId)
+    if(user.isAffiliate){
+        let product = (req.body.pro)
+        if(product){
+            product.map((item)=>{
+                console.log((item.price*10)/100);
                 let affiliateInfo = {
-                    amount: (product.price*10)/100,
-                    owner: req.query.id
+                    amount: (item.price*10)/100,
+                    owner: req.body.userId
                 }
-                
                 const affiliate = new Affiliates(affiliateInfo)
                 affiliate.save()
-                res.send(product)
-            }else{
-                res.status(404).send({msg: 'Product Not Found'})
-            }
-
-        }else{
-            let product = await Product.findOne({slug: req.params.slug})
-            if(product){
-                res.send(product)
-            }else{
-                res.status(404).send({msg: 'Product Not Found'})
-            }
-        }
-    }else{
-        let product = await Product.findOne({slug: req.params.slug})
-        if(product){
-            res.send(product)
+            })
         }else{
             res.status(404).send({msg: 'Product Not Found'})
         }
+    }else{
+        ""
     }
+})
+
+productRouter.get('/:slug', async (req,res) => {                    /* vedio: 28 ProductDtails.jsx L-59 */
+    let product = await Product.findOne({slug: req.params.slug})
+    if(product){
+        res.send(product)
+    }else{
+        res.status(404).send({msg: 'Product Not Found'})
+    }
+    /* class: 64 */
+    // if(req.query.id){
+    //     let user = await User.findById(req.query.id)
+    //     if(user.isAffiliate){
+    //         let product = await Product.findOne({slug: req.params.slug})
+    //         // console.log((product.price*10)/100);
+    //         if(product){
+    //             let affiliateInfo = {
+    //                 amount: (product.price*10)/100,
+    //                 owner: req.query.id
+    //             }
+                
+    //             const affiliate = new Affiliates(affiliateInfo)
+    //             affiliate.save()
+    //             res.send(product)
+    //         }else{
+    //             res.status(404).send({msg: 'Product Not Found'})
+    //         }
+
+    //     }else{
+    //         let product = await Product.findOne({slug: req.params.slug})
+    //         if(product){
+    //             res.send(product)
+    //         }else{
+    //             res.status(404).send({msg: 'Product Not Found'})
+    //         }
+    //     }
+    // }else{
+    //     let product = await Product.findOne({slug: req.params.slug})
+    //     if(product){
+    //         res.send(product)
+    //     }else{
+    //         res.status(404).send({msg: 'Product Not Found'})
+    //     }
+    // }
     /* class: 64 */
 })
 
 productRouter.get('/affiliat/info/:id', async (req,res)=>{           /* class: 64 */
-console.log("djfdkj");
     let data = await Affiliates.find({owner: req.params.id})
     res.send(data)
     console.log(data)

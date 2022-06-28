@@ -89,8 +89,8 @@ const ProductDetails = () => {
    
   },[params.slug])
 
-  useEffect(async()=>{                                          /* HW class: 64 */
-    let {data} = await axios.get(`/products/rating/info/${product._id}`) 
+  useEffect(async()=>{                                          /* singleProRating HW class: 64 */
+    let {data} = await axios.get(`/products/singleProRating/info/${product._id}`) 
     setNumber(data.length)
     {data.map((item)=>{
       if(item.userId == userInfo._id){
@@ -110,14 +110,7 @@ const ProductDetails = () => {
     const existingItem = cart.cartItems.find((item)=>item._id === product._id)
     console.log(existingItem);
     const quantity = existingItem ? existingItem.quantity + 1 : 1
-    console.log(quantity);
-    
-    const {data} = await axios.get(`/cartproduct/${product._id}`) 
-    console.log(data);
-    if(data.instock < quantity){
-      window.alert(`${product.name} out of stock`)
-      return
-    }
+ 
     /* class 46 */   
     ctxDispatch({
       type: 'CART_ADD_ITEMS',
@@ -162,7 +155,7 @@ const ProductDetails = () => {
 
   let handleRating = async () =>{
     console.log('ami');
-    let {data} = await axios.post('/products/rating',{
+    let {data} = await axios.post('/products/singleProRating',{
       proId: product._id,
       rating: rating,
       userId: userInfo._id,

@@ -4,7 +4,6 @@ import { Button,Modal,ListGroup,Container,Row,Col,Card } from 'react-bootstrap';
 import axios from 'axios'
 
 
-
 const HomePage = () => {                      /****** video: 51 ******/
   const [show, setShow] = useState(false);
   const [discountimg, setDiscountimg] = useState(false);
@@ -15,16 +14,16 @@ const HomePage = () => {                      /****** video: 51 ******/
   const handleShow = () => setShow(true);
 
   let catarr = []
-
+  
   useEffect( async ()=>{
     const {data} = await axios.get(`./discount`)
-    // console.log(data.img);
     setDiscountimg(data.img);
     // setShow(true)
+
     let product = await axios.get("/products")
-    // setCatagory(product.data);
     product.data.map((item)=>{
       if(catarr.indexOf(item.catagory) == -1){
+        // console.log(item.catagory);
         catarr.push(item.catagory)
       }
     })
@@ -32,7 +31,8 @@ const HomePage = () => {                      /****** video: 51 ******/
   },[])
 
   let handleCatagory = async (catagory) =>{
-    let catagoryproduct = await axios.get(`/catagory/${catagory}`)
+    let catagoryproduct = await axios.get(`/products/catagory/${catagory}`)
+    // console.log(catagoryproduct.data);
     setCatagoryproduct(catagoryproduct.data);
   }
 
@@ -70,6 +70,9 @@ const HomePage = () => {                      /****** video: 51 ******/
       </div>
 
       <div className="cartproductshow">
+        <Button variant="primary" onClick={handleShow}>
+          Offer 
+        </Button>
         <Container>
           <Row>
             {catagoryproduct 
@@ -88,7 +91,7 @@ const HomePage = () => {                      /****** video: 51 ******/
                     <Button variant="primary">Go somewhere</Button>
                   </Card.Body>
                 </Card>
-            </Col>
+              </Col>
               
             ))
             :
@@ -98,10 +101,6 @@ const HomePage = () => {                      /****** video: 51 ******/
           </Row>
         </Container>
       </div>
-
-      <Button variant="primary" onClick={handleShow}>
-        Offer 
-      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

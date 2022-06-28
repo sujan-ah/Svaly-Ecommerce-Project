@@ -12,6 +12,7 @@ const strip = new Stripe(process.env.STRIP_CLIENT || "",null)   /* vedio: 53 Str
 
 orderRouter.post('/', isAuth, async(req,res)=>{   /* vedio: 45 PlaceOrder.jsx L-122*/
     // console.log(req.body.userId);
+    // console.log(isAuth);
     const newOrder = new Order({
         orderItems: req.body.orderItems.map((p)=> ({...p,product: p._id})),
         shippingaddress: req.body.shippingaddress,
