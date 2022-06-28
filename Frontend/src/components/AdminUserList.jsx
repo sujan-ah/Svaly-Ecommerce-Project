@@ -12,7 +12,7 @@ const AdminUserList = () => {
             </Col>
 
             <Col lg={9}>
-                <h1>Welcome To Admin Dashboard. You Have The Super Power To Controll Everything.</h1> 
+                
             </Col>
         </Row>
     </Container>

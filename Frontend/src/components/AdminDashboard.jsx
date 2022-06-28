@@ -3,12 +3,12 @@ import { Container,Row,Col } from 'react-bootstrap'
 import AdminNavbar from './AdminNavbar'
 
 
-const Admin = () => {
+const AdminDashboard = () => {
   return (
     <Container>
         <Row>
             <Col lg={3}>
-                <AdminNavbar/>
+                <AdminNavbar active=""/>
             </Col>
 
             <Col lg={9}>
@@ -19,4 +19,4 @@ const Admin = () => {
   )
 }
 
-export default Admin
+export default AdminDashboard

@@ -24,8 +24,9 @@ import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
 import Affiliate from "./components/Affiliate";
 import AffiliateLink from "./components/AffiliateLink";
-import Admin from "./components/Admin Dashboard";
+import Admin from "./components/AdminDashboard";
 import AdminUserList from "./components/AdminUserList";
+import AdminDashboard from "./components/AdminDashboard";
 
 
 
@@ -329,8 +330,8 @@ function App() {
           <Route path="/vertualcard" element={<VertualCard />} />     {/* class: 62 */}
           <Route path="/affiliate" element={<Affiliate />} />         {/* class: 63 part-1 */}
           <Route path="/affiliateLink" element={<AffiliateLink />} /> {/* class: 63 part-1 */}
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/adminuserlist" element={<AdminUserList />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/adminUserlist" element={<AdminUserList />} />
         </Routes>
       </BrowserRouter>
     </>
