@@ -24,9 +24,9 @@ import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
 import Affiliate from "./components/Affiliate";
 import AffiliateLink from "./components/AffiliateLink";
-import Admin from "./components/AdminDashboard";
-import AdminUserList from "./components/AdminUserList";
 import AdminDashboard from "./components/AdminDashboard";
+import AdminUserList from "./components/AdminUserList";
+import AdminRollManage from "./components/AdminRollManage";
 
 
 
@@ -193,6 +193,17 @@ function App() {
                   title={userInfo.name} 
                   id="basic-nav-dropdown"
                 >
+                  {userInfo.isAdmin 
+                  ?
+                    <NavDropdown.Item>
+                      <Link className="item" to="/admin">
+                        Admin Dashboard
+                      </Link>
+                    </NavDropdown.Item>
+                  :
+                   ""
+                  }
+
                   {userInfo.isVendor
                   ?
                     <NavDropdown.Item>
@@ -207,6 +218,7 @@ function App() {
                       </Link>
                     </NavDropdown.Item>
                   }
+                  
 
                   <NavDropdown.Item>                      {/* class: 62 */}
                     <Link className="item" to="/vertualcard">
@@ -331,7 +343,8 @@ function App() {
           <Route path="/affiliate" element={<Affiliate />} />         {/* class: 63 part-1 */}
           <Route path="/affiliateLink" element={<AffiliateLink />} /> {/* class: 63 part-1 */}
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/adminUserlist" element={<AdminUserList />} />
+          <Route path="/adminUserList" element={<AdminUserList />} />
+          <Route path="/adminRoleManage" element={<AdminRollManage />} />
         </Routes>
       </BrowserRouter>
     </>

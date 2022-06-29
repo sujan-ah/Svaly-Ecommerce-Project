@@ -5,21 +5,30 @@ import { Link } from 'react-router-dom'
 const AdminNavbar = (props) => {
   return (
     <ListGroup as="ul">
-        <ListGroup.Item as="li" active={props.active == "userlist" ? true : false}>
-            <Link style={{color: `${props.active == "userlist" ? "white" : "black"}`}} 
-                to="adminUserlist"
-            >
-                User List
-            </Link>
-        </ListGroup.Item>
+      <ListGroup.Item as="li" active={props.active == 'userlist' ? true : false}>
+        <Link to='/adminUserList'
+            style={{color: `${props.active == 'userlist' ? 'white' : 'black'}`}}
+        >
+            User List
+        </Link>
+       
+      </ListGroup.Item>
 
-        {/* <ListGroup.Item>Product List</ListGroup.Item>
-        <ListGroup.Item>Product Upload</ListGroup.Item>
-        <ListGroup.Item>Catagory Upload</ListGroup.Item>
-        <ListGroup.Item>Brand Upload</ListGroup.Item>
-        <ListGroup.Item>Blog</ListGroup.Item>
-        <ListGroup.Item>Product Approve</ListGroup.Item>
-        <ListGroup.Item>Role Asign</ListGroup.Item> */}
+      <ListGroup.Item as="li">Product List</ListGroup.Item>
+      <ListGroup.Item as="li">Product Upoload</ListGroup.Item>
+      <ListGroup.Item as="li">Catagory Upoload</ListGroup.Item>
+      <ListGroup.Item as="li">Brand Upoload</ListGroup.Item>
+      <ListGroup.Item as="li">Blog</ListGroup.Item>
+      <ListGroup.Item as="li">Product Approve</ListGroup.Item>
+
+      <ListGroup.Item as="li" active={props.active == 'rolemanage' ? true : false}>
+        <Link to='/adminRoleManage'
+          style={{color: `${props.active == 'rolemanage' ? 'white' : 'black'}`}}
+        >
+          Role Assign
+        </Link>
+    
+      </ListGroup.Item>
     </ListGroup>
   )
 }

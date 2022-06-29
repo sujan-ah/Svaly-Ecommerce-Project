@@ -8,6 +8,11 @@ import VertualCard from "../model/vertualModel.js"
 
 const userRouter = express.Router()                             /* vedio: 30 */
 
+userRouter.get('/adminuser', async (req,res)=>{
+    let user = await User.find({})
+    res.send(user);
+})
+
 userRouter.post('/signin',async (req, res) => {                 /* Login.jsx L-37 */
    
     let user = await User.findOne({email: req.body.email})
