@@ -8,10 +8,12 @@ import axios from 'axios'
 const AdminRollManagement = () => {                 {/* class: 66 part-2 */} 
 
     const [name, setName] = useState('')
+    // Asign Roll
     const [roles, setRoles] = useState([])
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRoll] = useState('')
+    // Asign Roll
 
     let rolelist = []
 
