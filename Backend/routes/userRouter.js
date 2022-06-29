@@ -3,6 +3,7 @@ import User from "../model/userModel.js"
 import bcrypt from "bcryptjs"
 import { generateToken } from "../utils.js"
 import VertualCard from "../model/vertualModel.js"
+import UserRole from "../model/userRoleModel.js"
 
 
 
@@ -141,5 +142,20 @@ userRouter.put('/affiliate/:id', async(req, res) => {           /* class: 63 par
     })
 })
 
+userRouter.post('/userrole', async (req,res)=>{
+    console.log(req.body);
+    let userroleInfo = {
+        name: req.body.name,
+        permissions: req.body.permissions,
+    }
+    let userrole = await UserRole(userroleInfo)
+    userrole.save()
+    res.send(userrole)
+})
+
+userRouter.get('/userroleget', async (req,res)=>{
+    let userrole = await UserRole.find({})
+    res.send(userrole);
+})
 
 export default userRouter

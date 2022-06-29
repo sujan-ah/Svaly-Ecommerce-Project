@@ -8,6 +8,8 @@ import AdminNavbar from './AdminNavbar'
 const AdminRollManage = () => {
   const [name,setName] = useState('')
 
+  const [userRole, setUserRole] = useState([])
+
   let rolelist = []
 
   let handleProductUpload = () =>{
@@ -60,78 +62,122 @@ const AdminRollManage = () => {
     }
   }
   
+  let handleUserRoleSubmit = async (e) =>{
+    e.preventDefault()
+    let {data} = await axios.post('/api/users/userrole',{
+      name: name,
+      permissions: rolelist,
+    })
+    console.log(data);
+  }
+
+  useEffect(async()=>{
+    async function userrole(){
+      let {data} = await axios.get('/api/users/userroleget')
+      setUserRole(data);
+    }
+    userrole()
+  },[])
 
 
 
   return (
     <Container>
         <Row>
-            <Col lg={3}>
-                <AdminNavbar active='rolemanage' />
-            </Col>
+          <Col lg={3}>
+            <AdminNavbar active='rolemanage' />
+          </Col>
 
-            <Col lg={9}>
-              <Tabs
-                defaultActiveKey="profile"
-                id="uncontrolled-tab-example"
-                className="mb-3"
-              >
-                <Tab eventKey="rolelist" title="Role List">
-                  Sujan
-                </Tab>
-                <Tab eventKey="asignrole" title="Asign Role">
-                  Surobi
-                </Tab>
+          <Col lg={9}>
+            <Tabs
+              defaultActiveKey="profile"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              <Tab eventKey="rolelist" title="Role List">
+                Sujan
+              </Tab>
+              <Tab eventKey="asignrole" title="Asign Role">
+                <Form>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                  </Form.Group>
 
-                <Tab eventKey="createrole" title="Create Role">
-                  <Form>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                      <Form.Label>Create Role</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        placeholder="Create Role"
-                        onChange={(e)=> setName(e.target.value)}
-                      />
-                    </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" />
+                  </Form.Group>
 
-                    <Form.Check 
-                      type="checkbox"
-                      id="checkbox"
-                      label="Product Upload"
-                      onChange={handleProductUpload}
-                    />
-                    <Form.Check 
-                      type="checkbox"
-                      id="checkbox"
-                      label="Catagory Upload"
-                      onChange={handleCatagoryUpload}
-                    />
-                    <Form.Check 
-                      type="checkbox"
-                      id="checkbox"
-                      label="Brand Upload"
-                      onChange={handleBrandUpload}
-                    />
-                    <Form.Check 
-                      type="checkbox"
-                      id="checkbox"
-                      label="Blog"
-                      onChange={handleBlog}
-                    />
-                    <Form.Check 
-                      type="checkbox"
-                      id="checkbox"
-                      label="Product Approve"
-                      onChange={handleProApprove}
-                    />
+                  <Form.Select aria-label="Select Role">
+                    <option>Select Role</option>
+                    {userRole.map((item)=>(
+                      <option value="1">{item.name}</option>
+                    ))}
+                  </Form.Select>
 
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Form>
-                </Tab>
-              </Tabs>
-            </Col>
+                  <Button 
+                    variant="primary" 
+                    type="submit"className='mt-3'
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              </Tab>
+
+              <Tab eventKey="createrole" title="Create Role">
+                <Form>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Create Role</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Create Role"
+                      onChange={(e)=> setName(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Check 
+                    type="checkbox"
+                    id="checkbox"
+                    label="Product Upload"
+                    onChange={handleProductUpload}
+                  />
+                  <Form.Check 
+                    type="checkbox"
+                    id="checkbox"
+                    label="Catagory Upload"
+                    onChange={handleCatagoryUpload}
+                  />
+                  <Form.Check 
+                    type="checkbox"
+                    id="checkbox"
+                    label="Brand Upload"
+                    onChange={handleBrandUpload}
+                  />
+                  <Form.Check 
+                    type="checkbox"
+                    id="checkbox"
+                    label="Blog"
+                    onChange={handleBlog}
+                  />
+                  <Form.Check 
+                    type="checkbox"
+                    id="checkbox"
+                    label="Product Approve"
+                    onChange={handleProApprove}
+                  />
+
+                  <Button 
+                    variant="primary" 
+                    type="submit"
+                    onClick={handleUserRoleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              </Tab>
+            </Tabs>
+          </Col>
         </Row>
     </Container>
   )
